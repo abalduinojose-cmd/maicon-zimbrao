@@ -200,31 +200,31 @@ a{color:inherit;text-decoration:none}
 .app.sp{--marca:#1ed760;--sobre:#000;--brilho:rgba(30,215,96,.7)}
 .app.yt{--marca:#ff0033;--sobre:#fff;--brilho:rgba(255,0,51,.7)}
 
-/* experiências: lista limpa num só cartão; cada formato tem uma miniatura do próprio show,
-   tingida na sua cor, e a cor aparece também no rótulo e na seta */
+/* experiências: lista limpa num só cartão; cada formato tem um ícone próprio na sua cor,
+   que se acende no toque; a cor aparece também no rótulo e na seta */
 .lista-exp{display:flex;flex-direction:column;padding:6px;border-radius:26px}
-.xp{position:relative;display:grid;grid-template-columns:60px minmax(0,1fr) auto;align-items:center;gap:14px;padding:10px 12px 10px 10px;border-radius:20px;transition:background .3s var(--macio)}
-.xp + .xp::before{content:"";position:absolute;left:84px;right:14px;top:0;height:1px;background:rgba(255,255,255,.08);transition:opacity .3s}
+.xp{position:relative;display:grid;grid-template-columns:56px minmax(0,1fr) auto;align-items:center;gap:14px;padding:10px 12px 10px 10px;border-radius:20px;transition:background .3s var(--macio)}
+.xp + .xp::before{content:"";position:absolute;left:80px;right:14px;top:0;height:1px;background:rgba(255,255,255,.08);transition:opacity .3s}
 .xp:hover{background:rgba(255,255,255,.06)}
 .xp:hover::before,.xp:hover + .xp::before{opacity:0}
 .xp:active{background:rgba(255,255,255,.09)}
-.miniatura{position:relative;width:60px;height:60px;border-radius:17px;overflow:hidden;isolation:isolate;box-shadow:0 10px 24px -12px var(--c),inset 0 0 0 1px rgba(255,255,255,.14)}
-.miniatura img{display:block;width:100%;height:100%;object-fit:cover;transform:scale(1.02);transition:transform .7s var(--saida)}
-.miniatura::after{content:"";position:absolute;inset:0;background:linear-gradient(160deg,transparent 35%,var(--c));opacity:.55;mix-blend-mode:soft-light}
-.miniatura::before{content:"";position:absolute;inset:0;z-index:1;border-radius:inherit;box-shadow:inset 0 0 0 1px rgba(255,255,255,.14)}
-.xp:hover .miniatura img{transform:scale(1.1)}
-.xp .rotulo-x{display:block;font-size:.58rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--c)}
+.miniatura{position:relative;width:56px;height:56px;border-radius:18px;display:grid;place-items:center;color:var(--c);
+  background:radial-gradient(120% 120% at 25% 15%,var(--h),rgba(255,255,255,.025) 70%);border:1px solid var(--b);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 12px 26px -16px var(--c);transition:background .35s var(--macio),color .3s,border-color .3s,box-shadow .35s}
+.miniatura svg{width:24px;height:24px;transition:transform .55s var(--saida)}
+.xp:hover .miniatura,.xp:focus-visible .miniatura{background:var(--c);color:#120f18;border-color:transparent;box-shadow:0 14px 28px -12px var(--c)}
+.xp:hover .miniatura svg{transform:scale(1.1) rotate(-8deg)}
+.xp.c:hover .miniatura svg{transform:rotate(300deg)}.xp .rotulo-x{display:block;font-size:.58rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--c)}
 .xp strong{display:block;margin-top:3px;font-family:var(--display);font-weight:700;font-size:.92rem;letter-spacing:-.015em;line-height:1.2}
 .xp small{display:block;margin-top:3px;color:var(--muted);font-size:.76rem;line-height:1.4}
 .xp .vai{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;color:var(--muted);border:1px solid rgba(255,255,255,.13);
   transition:transform .45s var(--saida),color .3s,border-color .3s,box-shadow .3s}
 .xp .vai svg{width:15px;height:15px}
 .xp:hover .vai,.xp:focus-visible .vai{background:var(--c);border-color:transparent;color:#120f18;transform:translateX(2px);box-shadow:0 10px 22px -10px var(--c)}
-.xp.a{--c:#ff7a3d}
-.xp.b{--c:#9a7dff}
-.xp.c{--c:#3ddc84}
-.xp.d{--c:#ffc43d}
-.monte{display:flex;align-items:center;justify-content:center;gap:8px;margin:4px 4px 2px;padding:13px 14px;border-radius:18px;border:1px dashed rgba(255,255,255,.18);
+.xp.a{--c:#ff7a3d;--h:rgba(255,122,61,.24);--b:rgba(255,122,61,.32)}
+.xp.b{--c:#9a7dff;--h:rgba(154,125,255,.26);--b:rgba(154,125,255,.34)}
+.xp.c{--c:#3ddc84;--h:rgba(61,220,132,.22);--b:rgba(61,220,132,.32)}
+.xp.d{--c:#ffc43d;--h:rgba(255,196,61,.22);--b:rgba(255,196,61,.32)}.monte{display:flex;align-items:center;justify-content:center;gap:8px;margin:4px 4px 2px;padding:13px 14px;border-radius:18px;border:1px dashed rgba(255,255,255,.18);
   font-size:.8rem;font-weight:600;color:var(--muted);transition:color .3s,border-color .3s,background .3s}
 .monte b{color:var(--fg);font-weight:700}
 .monte svg{width:15px;height:15px;transition:transform .45s var(--saida)}
@@ -314,6 +314,10 @@ a{color:inherit;text-decoration:none}
     <path d="M7.5 15.6c2.6-.8 5.6-.5 8.1.8" stroke-width="2"/>
   </symbol>
   <symbol id="i-play" viewBox="0 0 24 24" fill="currentColor"><path d="M9 7.2v9.6c0 .8.9 1.3 1.6.9l7.6-4.8c.6-.4.6-1.3 0-1.7L10.6 6.3C9.9 5.9 9 6.4 9 7.2Z"/></symbol>
+  <symbol id="i-resenha" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4.5h9.5a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H9l-3.5 3v-3H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2Z"/><path d="M18 8.5h2a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-1V20l-3.5-2.5H12"/><path d="M6 9h.01M8.8 9h.01M11.6 9h.01" stroke-width="2.4"/></symbol>
+  <symbol id="i-mix" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 3.5v17M12 3.5v17M19 3.5v17"/><rect x="2.8" y="13" width="4.4" height="3.2" rx="1.4" fill="currentColor"/><rect x="9.8" y="6.5" width="4.4" height="3.2" rx="1.4" fill="currentColor"/><rect x="16.8" y="10.5" width="4.4" height="3.2" rx="1.4" fill="currentColor"/></symbol>
+  <symbol id="i-360" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 12a8.5 8.5 0 1 1-2.6-6.1"/><path d="M18.6 2.4v4h-4"/><circle cx="12" cy="12" r="2.3" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-run" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="15" cy="4.3" r="1.9"/><path d="M5.5 11.5 9 8.3h4.3l2.2 3.2 3.3 1"/><path d="M13.3 8.3 11.4 14l3.4 2.6-1 4.4"/><path d="M11.4 14 9 16.6 5 17.4"/></symbol>
   <symbol id="i-cal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15.5" rx="3.2"/><path d="M3.5 10h17M8 3v4M16 3v4"/><path d="m9 15.2 2 2 4-4"/></symbol>
   <symbol id="i-mic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></symbol>
 </svg>
@@ -425,22 +429,22 @@ a{color:inherit;text-decoration:none}
       <div class="cabeca"><h2 id="t-exp">Experiências MZ</h2><span>4 formatos</span></div>
       <div class="lista-exp vidro">
         <a class="xp a" href="https://wa.me/5524988319412?text=Ol%C3%A1%2C%20Maicon!%20Quero%20saber%20mais%20sobre%20a%20Resenha%20MZ." target="_blank" rel="noopener">
-          <span class="miniatura"><img src="img/exp-resenha.jpg" alt="" width="200" height="200" loading="lazy"></span>
+          <span class="miniatura" aria-hidden="true"><svg><use href="#i-resenha"/></svg></span>
           <span><span class="rotulo-x">Encontro</span><strong>Resenha MZ</strong><small>Música ao vivo e clima de resenha.</small></span>
           <span class="vai" aria-hidden="true"><svg><use href="#i-seta"/></svg></span>
         </a>
         <a class="xp b" href="https://wa.me/5524988319412?text=Ol%C3%A1%2C%20Maicon!%20Quero%20saber%20mais%20sobre%20a%20MiXturinha%20do%20MZ." target="_blank" rel="noopener">
-          <span class="miniatura"><img src="img/exp-mix.jpg" alt="" width="200" height="200" loading="lazy"></span>
+          <span class="miniatura" aria-hidden="true"><svg><use href="#i-mix"/></svg></span>
           <span><span class="rotulo-x">Set</span><strong>MiXturinha do MZ</strong><small>Vários ritmos num set só.</small></span>
           <span class="vai" aria-hidden="true"><svg><use href="#i-seta"/></svg></span>
         </a>
         <a class="xp c" href="https://wa.me/5524988319412?text=Ol%C3%A1%2C%20Maicon!%20Quero%20saber%20mais%20sobre%20o%20Fervo%20360%C2%B0." target="_blank" rel="noopener">
-          <span class="miniatura"><img src="img/exp-fervo.jpg" alt="" width="200" height="200" loading="lazy"></span>
+          <span class="miniatura" aria-hidden="true"><svg><use href="#i-360"/></svg></span>
           <span><span class="rotulo-x">Festa</span><strong>Fervo 360°</strong><small>A festa completa, de ponta a ponta.</small></span>
           <span class="vai" aria-hidden="true"><svg><use href="#i-seta"/></svg></span>
         </a>
         <a class="xp d" href="https://wa.me/5524988319412?text=Ol%C3%A1%2C%20Maicon!%20Quero%20saber%20mais%20sobre%20o%20Running%20e%20Resenha." target="_blank" rel="noopener">
-          <span class="miniatura"><img src="img/exp-running.jpg" alt="" width="200" height="200" loading="lazy"></span>
+          <span class="miniatura" aria-hidden="true"><svg><use href="#i-run"/></svg></span>
           <span><span class="rotulo-x">Corrida</span><strong>Running e Resenha</strong><small>Corrida de manhã, resenha depois.</small></span>
           <span class="vai" aria-hidden="true"><svg><use href="#i-seta"/></svg></span>
         </a>
