@@ -23,8 +23,8 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800;900&family=Manrope:wght@400;500;600;700&display=swap">
 <style>
 /* Layout: palco escuro de show com a capa desfocada como luz ambiente. No celular, uma coluna:
-   foto com o nome cinético pousando sobre ela, WhatsApp como herói, lançamento, redes e um
-   carrossel das experiências. No desktop, o painel do artista fica fixo à esquerda e o
+   foto com o nome cinético pousando sobre ela, WhatsApp como herói, lançamento, redes em blocos de marca e as experiências
+   como ingressos. Vídeo do show ao fundo. No desktop, o painel do artista fica fixo à esquerda e o
    conteúdo rola à direita. Superfícies de vidro, brilho laranja contido. Um tema só. */
 :root{
   --bg:#0c0a11;
@@ -64,7 +64,11 @@ a{color:inherit;text-decoration:none}
 .palco-fumaca{position:absolute;inset:0;background:
   radial-gradient(70% 40% at 50% 0%,rgba(90,63,214,.22),transparent 70%),
   radial-gradient(60% 35% at 50% 100%,rgba(255,122,61,.14),transparent 70%)}
-.palco-luz{position:absolute;inset:0;width:100%;height:100%;display:block}
+.palco-luz{position:absolute;inset:0;width:100%;height:100%;display:block;opacity:.6}
+/* o vídeo do show: cortado só com o artista, escurecido para o texto ler por cima */
+.palco-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 30%;opacity:0;transition:opacity 1.4s ease;filter:saturate(1.15) contrast(1.05)}
+.palco-video.ok{opacity:1}
+.palco-tela{position:absolute;inset:0;background:linear-gradient(180deg,rgba(12,10,17,.5) 0%,rgba(12,10,17,.3) 30%,rgba(12,10,17,.5) 65%,rgba(12,10,17,.8) 100%)}
 .palco-vinheta{position:absolute;inset:0;background:
   radial-gradient(120% 85% at 50% 35%,transparent 45%,rgba(7,5,11,.75) 100%),
   linear-gradient(180deg,transparent 60%,rgba(12,10,17,.55) 100%)}
@@ -157,7 +161,7 @@ a{color:inherit;text-decoration:none}
 /* ---------- seções ---------- */
 .secao{margin-top:34px;display:flex;flex-direction:column;gap:12px}
 .cabeca{display:flex;align-items:baseline;justify-content:space-between;gap:12px;padding:0 6px}
-.cabeca h2{margin:0;font-family:var(--display);font-weight:800;font-size:.78rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+.cabeca h2{margin:0;white-space:nowrap;font-family:var(--display);font-weight:800;font-size:.78rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
 .cabeca a,.cabeca span{font-size:.8rem;font-weight:600;color:var(--laranja)}
 .cabeca span{color:var(--dim)}
 
@@ -180,66 +184,58 @@ a{color:inherit;text-decoration:none}
 .chip.sp svg{color:#1ed760}.chip.yt svg{color:#ff4b4b}
 .cta.wa .ico svg,.cta.sp .ico svg,.cta.yt .ico svg{width:24px;height:24px}
 
-/* redes: bento com o perfil em destaque */
-.redes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
-.rede{position:relative;min-width:0;border-radius:22px;overflow:hidden;isolation:isolate;transition:transform .4s var(--saida),box-shadow .35s}
-.rede::before{content:"";position:absolute;inset:0;z-index:-1;opacity:.5;transition:opacity .35s;background:radial-gradient(95% 85% at 0% 0%,var(--glow),transparent 70%)}
-.rede:hover{transform:translateY(-3px);box-shadow:0 22px 44px -22px var(--glow)}
-.rede:hover::before{opacity:1}
-.rede.ig{--glow:rgba(238,42,123,.42)}.rede.sp{--glow:rgba(30,215,96,.34)}.rede.yt{--glow:rgba(255,0,51,.36)}
-.rede .ext{position:absolute;right:12px;top:12px;width:15px;height:15px;color:var(--dim);transition:color .2s,transform .35s var(--saida)}
-.rede:hover .ext{color:var(--fg);transform:translate(2px,-2px)}
-.rede.perfil{grid-column:1/-1;display:flex;align-items:center;gap:14px;padding:14px}
-.avatar{position:relative;flex:none;width:62px;height:62px;border-radius:50%;padding:2.5px;background:conic-gradient(from 210deg,#f9ce34,#ee2a7b,#6228d7,#f9ce34)}
-.avatar img{display:block;width:100%;height:100%;border-radius:50%;object-fit:cover;object-position:center 6%;border:2.5px solid #17131f}
-.avatar .mini{position:absolute;right:-4px;bottom:-4px;width:24px;height:24px;border-radius:8px;display:grid;place-items:center;background:linear-gradient(45deg,#f9ce34,#ee2a7b 55%,#6228d7);color:#fff;border:2px solid #17131f}
-.avatar .mini svg{width:13px;height:13px}
-.perfil .dados{flex:1;min-width:0}
-.perfil strong{display:block;font-family:var(--display);font-weight:700;font-size:.8rem;letter-spacing:-.015em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.perfil small{display:block;color:var(--muted);font-size:.76rem;margin-top:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.seguir{flex:none;padding:10px 16px;border-radius:12px;background:#0095f6;color:#fff;font-weight:700;font-size:.82rem;box-shadow:0 8px 20px -10px rgba(0,149,246,.9);transition:background .2s}
-.rede.perfil:hover .seguir{background:#1aa1ff}
-.rede.tile{display:flex;flex-direction:column;justify-content:space-between;gap:18px;padding:14px;min-height:124px}
-.rede.tile .ico{width:42px;height:42px;border-radius:13px;display:grid;place-items:center;box-shadow:inset 0 1px 0 rgba(255,255,255,.28),0 10px 22px -10px var(--glow)}
-.rede.tile .ico svg{width:22px;height:22px}
-.rede.ig .ico{background:linear-gradient(45deg,#f9ce34,#ee2a7b 55%,#6228d7);color:#fff}
-.rede.sp .ico{background:#1ed760;color:#000}
-.rede.yt .ico{background:#ff0033;color:#fff}
-.rede.tile strong{display:block;font-family:var(--display);font-weight:700;font-size:.74rem;letter-spacing:-.01em;line-height:1.2}
-.rede.tile small{display:block;color:var(--muted);font-size:.68rem;margin-top:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+/* redes: blocos nas cores de cada marca, com a marca gigante vazando no canto */
+.redes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.rede{--glow:rgba(0,0,0,.4);position:relative;display:flex;flex-direction:column;justify-content:space-between;gap:28px;min-width:0;min-height:146px;padding:14px;border-radius:24px;overflow:hidden;isolation:isolate;color:#fff;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.3),0 20px 40px -24px var(--glow);transition:transform .45s var(--saida),box-shadow .35s}
+.rede:hover{transform:translateY(-4px);box-shadow:inset 0 1px 0 rgba(255,255,255,.34),0 28px 50px -22px var(--glow)}
+.rede:active{transform:scale(.98)}
+.rede .dagua{position:absolute;right:-24px;bottom:-28px;width:124px;height:124px;opacity:.2;z-index:-1;transition:transform .7s var(--saida)}
+.rede:hover .dagua{transform:rotate(-10deg) scale(1.08)}
+.rede .linha1{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.rede .ico{flex:none;width:40px;height:40px;border-radius:13px;display:grid;place-items:center;background:rgba(255,255,255,.22);box-shadow:inset 0 1px 0 rgba(255,255,255,.35)}
+.rede .ico svg{width:21px;height:21px}
+.rede .ico.foto{border-radius:50%;padding:2px;background:#fff}
+.rede .ico.foto img{display:block;width:100%;height:100%;border-radius:50%;object-fit:cover;object-position:center 6%}
+.rede .ext{flex:none;width:18px;height:18px;opacity:.85;transition:transform .35s var(--saida)}
+.rede:hover .ext{transform:translate(2px,-2px)}
+.rede strong{display:block;font-family:var(--display);font-weight:800;font-size:.86rem;letter-spacing:-.015em;line-height:1.15}
+.rede small{display:block;font-size:.72rem;font-weight:600;opacity:.85;margin-top:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rede.ig{--glow:rgba(238,42,123,.65);background:radial-gradient(135% 135% at 100% 0%,#ffd35a 0%,#f9773a 24%,#ee2a7b 50%,#8a3ab9 78%,#4c5fd7 100%)}
+.rede.mz{--glow:rgba(255,122,61,.5);background:linear-gradient(160deg,#2c2335,#110e17);box-shadow:inset 0 0 0 1px rgba(255,255,255,.14),inset 0 1px 0 rgba(255,255,255,.22),0 20px 40px -24px var(--glow)}
+.rede.mz .ico{background:linear-gradient(45deg,#f9ce34,#ee2a7b 55%,#6228d7)}
+.rede.mz .dagua{width:170px;height:auto;right:-30px;bottom:-22px;opacity:.18}
+.rede.sp{--glow:rgba(30,215,96,.6);background:linear-gradient(160deg,#2ee472,#17ad4e);color:#05150b}
+.rede.sp .ico{background:#0b0b0d;color:#1ed760;box-shadow:none}
+.rede.yt{--glow:rgba(255,0,51,.6);background:linear-gradient(160deg,#ff2b4f,#cf0029)}
 
-/* experiências: seletor com abas e painel */
-.f1{--g:linear-gradient(135deg,#ff8a4a,#ff4d6d);--tint:rgba(255,122,61,.4);--tx:#1a0d08}
-.f2{--g:linear-gradient(135deg,#8a6bff,#ff4d8a);--tint:rgba(130,95,255,.45);--tx:#fff}
-.f3{--g:linear-gradient(135deg,#4cea95,#14a86a);--tint:rgba(61,220,132,.36);--tx:#05210f}
-.f4{--g:linear-gradient(135deg,#ffd256,#ff8a3d);--tint:rgba(255,196,61,.38);--tx:#1f1204}
-.exps{padding:8px;border-radius:26px}
-.abas{position:relative;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;padding:4px;border-radius:18px;background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.06)}
-.abas .indicador{position:absolute;left:4px;top:4px;bottom:4px;width:calc((100% - 20px) / 4);border-radius:14px;
-  background:linear-gradient(180deg,rgba(255,255,255,.15),rgba(255,255,255,.06));box-shadow:inset 0 1px 0 rgba(255,255,255,.2),0 8px 20px -10px rgba(0,0,0,.8);
-  transform:translateX(calc(var(--i,0) * (100% + 4px)));transition:transform .55s cubic-bezier(.34,1.12,.64,1)}
-.aba{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:6px;min-width:0;padding:10px 2px 9px;border:0;border-radius:14px;background:none;color:var(--muted);font:inherit;cursor:pointer;transition:color .25s}
-.aba .sel{width:30px;height:30px;border-radius:10px;display:grid;place-items:center;font-family:var(--display);font-weight:900;font-size:.54rem;color:var(--tx);background:var(--g);opacity:.5;transition:opacity .3s,transform .45s var(--saida)}
-.aba span:last-child{font-size:.64rem;font-weight:700;letter-spacing:.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
-.aba[aria-selected="true"]{color:var(--fg)}
-.aba[aria-selected="true"] .sel{opacity:1;transform:scale(1.08)}
-.aba:hover{color:var(--fg)}
-.aba:hover .sel{opacity:.85}
-.paineis{display:grid;margin-top:8px}
-.painel{grid-area:1/1;position:relative;padding:18px 16px 16px;border-radius:20px;overflow:hidden;isolation:isolate;visibility:hidden}
-.painel.on,.painel.saindo{visibility:visible}
-.painel::before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(90% 80% at 100% 0%,var(--tint),transparent 65%)}
-.painel .num{position:absolute;right:10px;top:2px;font-family:var(--display);font-weight:900;font-size:4.4rem;line-height:1;letter-spacing:-.05em;color:transparent;-webkit-text-stroke:1px rgba(246,240,233,.18);z-index:-1;user-select:none}
-.painel .tag{font-size:.62rem}
-.painel h3{margin:6px 0 0;font-family:var(--display);font-weight:800;font-size:1.3rem;line-height:1.1;letter-spacing:-.02em}
-.painel p{margin:8px 0 0;color:var(--muted);font-size:.86rem;line-height:1.5;max-width:36ch}
-.pills{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
-.pills span{padding:6px 10px;border-radius:999px;font-size:.7rem;font-weight:600;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1)}
-.exp-cta{margin-top:16px;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 14px 13px 16px;border-radius:14px;background:var(--g);color:var(--tx);
-  font-family:var(--display);font-weight:800;font-size:.78rem;letter-spacing:-.01em;box-shadow:0 14px 30px -16px var(--tint),inset 0 1px 0 rgba(255,255,255,.3);transition:filter .2s}
-.exp-cta:hover{filter:brightness(1.07)}
-.exp-cta svg{flex:none;width:18px;height:18px;transition:transform .35s var(--saida)}
-.exp-cta:hover svg{transform:translateX(3px)}
+/* experiências: cada formato é um ingresso, com canhoto destacável e picote */
+.f1{--g:linear-gradient(150deg,#ff8a4a,#ff4d6d);--tint:rgba(255,110,70,.55);--tx:#1a0d08}
+.f2{--g:linear-gradient(150deg,#8a6bff,#ff4d8a);--tint:rgba(130,95,255,.55);--tx:#fff}
+.f3{--g:linear-gradient(150deg,#4cea95,#14a86a);--tint:rgba(61,220,132,.5);--tx:#05210f}
+.f4{--g:linear-gradient(150deg,#ffd256,#ff8a3d);--tint:rgba(255,196,61,.5);--tx:#1f1204}
+.ingressos{display:flex;flex-direction:column;gap:10px}
+.ingresso{display:block;border-radius:20px;transition:transform .45s var(--saida)}
+.ingresso:hover{transform:translateY(-3px)}
+.ingresso:active{transform:scale(.985)}
+.papel{--c:86px;display:grid;grid-template-columns:var(--c) minmax(0,1fr) auto;min-height:96px;border-radius:20px;overflow:hidden;
+  background:linear-gradient(180deg,rgba(255,255,255,.11),rgba(255,255,255,.045));border:1px solid rgba(255,255,255,.13);
+  -webkit-backdrop-filter:blur(18px) saturate(1.2);backdrop-filter:blur(18px) saturate(1.2);
+  -webkit-mask:radial-gradient(circle 10px at var(--c) 0,#0000 96%,#000) top/100% 51% no-repeat,radial-gradient(circle 10px at var(--c) 100%,#0000 96%,#000) bottom/100% 51% no-repeat;
+          mask:radial-gradient(circle 10px at var(--c) 0,#0000 96%,#000) top/100% 51% no-repeat,radial-gradient(circle 10px at var(--c) 100%,#0000 96%,#000) bottom/100% 51% no-repeat}
+.canhoto{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;background:var(--g);color:var(--tx);border-right:2px dashed rgba(12,10,17,.35)}
+.canhoto b{font-family:var(--display);font-weight:900;font-size:1rem;letter-spacing:-.02em;line-height:1}
+.canhoto small{font-size:.56rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;opacity:.72}
+.info{position:relative;isolation:isolate;display:flex;flex-direction:column;justify-content:center;min-width:0;padding:12px 6px 12px 16px}
+.info::before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(85% 130% at 0% 50%,var(--tint),transparent 70%);opacity:.32;transition:opacity .4s}
+.ingresso:hover .info::before{opacity:.7}
+.info .tag{font-size:.6rem}
+.info strong{display:block;margin-top:3px;font-family:var(--display);font-weight:800;font-size:.9rem;letter-spacing:-.02em;line-height:1.15}
+.info small{margin-top:4px;color:var(--muted);font-size:.74rem;line-height:1.38;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.ir{display:grid;place-items:center;padding:0 14px 0 6px}
+.ir span{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:var(--g);color:var(--tx);box-shadow:0 10px 22px -10px var(--tint),inset 0 1px 0 rgba(255,255,255,.35);transition:transform .45s var(--saida)}
+.ingresso:hover .ir span{transform:rotate(-45deg)}
+.ir svg{width:18px;height:18px}
 
 /* rodapé */
 .rodape{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:4px;align-items:center;text-align:center;color:var(--muted);font-size:.8rem}
@@ -279,6 +275,10 @@ a{color:inherit;text-decoration:none}
   .acoes{grid-template-columns:1fr;margin-top:18px}
   .cta{min-height:64px}
   .secao:first-child{margin-top:0}
+}
+@media (min-width:980px){
+  .palco-video{filter:saturate(1.15) blur(3px);transform:scale(1.05)}
+  .palco-tela{background:linear-gradient(90deg,rgba(12,10,17,.5),rgba(12,10,17,.66))}
 }
 @media (min-width:980px) and (max-height:780px){
   .coluna.esq{min-height:0}
@@ -321,6 +321,10 @@ a{color:inherit;text-decoration:none}
 
 <div class="palco" aria-hidden="true">
   <div class="palco-foto"></div>
+  <video class="palco-video" id="video" muted loop playsinline autoplay preload="auto" poster="img/fundo-poster.jpg" aria-hidden="true" tabindex="-1">
+    <source src="img/fundo.mp4" type="video/mp4">
+  </video>
+  <div class="palco-tela"></div>
   <div class="palco-fumaca"></div>
   <canvas class="palco-luz" id="luz"></canvas>
   <div class="palco-vinheta"></div>
@@ -401,73 +405,66 @@ a{color:inherit;text-decoration:none}
     </section>
 
     <section class="secao revelar" aria-labelledby="t-redes">
-      <div class="cabeca"><h2 id="t-redes">Redes</h2></div>
+      <div class="cabeca"><h2 id="t-redes">Redes</h2><span>4 canais</span></div>
       <div class="redes">
-        <a class="rede ig perfil vidro" href="https://www.instagram.com/maicon_zimbrao.mz/" target="_blank" rel="noopener">
-          <span class="avatar"><img src="img/capa.jpg" alt="" width="120" height="120"><span class="mini"><svg><use href="#i-ig"/></svg></span></span>
-          <span class="dados"><strong>Maicon Zimbrão</strong><small>@maicon_zimbrao.mz</small></span>
-          <span class="seguir">Seguir</span>
+        <a class="rede ig" href="https://www.instagram.com/maicon_zimbrao.mz/" target="_blank" rel="noopener">
+          <svg class="dagua" aria-hidden="true"><use href="#i-ig"/></svg>
+          <span class="linha1"><span class="ico foto"><img src="img/capa.jpg" alt="" width="80" height="80"></span><svg class="ext"><use href="#i-ext"/></svg></span>
+          <span><strong>Instagram</strong><small>@maicon_zimbrao.mz</small></span>
         </a>
-        <a class="rede ig tile vidro" href="https://www.instagram.com/mz_producoes__/" target="_blank" rel="noopener">
-          <span class="ico"><svg><use href="#i-ig"/></svg></span><span><strong>MZ Produções</strong><small>@mz_producoes__</small></span><svg class="ext"><use href="#i-ext"/></svg>
+        <a class="rede mz" href="https://www.instagram.com/mz_producoes__/" target="_blank" rel="noopener">
+          <img class="dagua" src="img/logo.png" alt="" width="1000" height="721">
+          <span class="linha1"><span class="ico"><svg><use href="#i-ig"/></svg></span><svg class="ext"><use href="#i-ext"/></svg></span>
+          <span><strong>MZ Produções</strong><small>@mz_producoes__</small></span>
         </a>
-        <a class="rede sp tile vidro" href="https://open.spotify.com/artist/3nrKWCVEmRI25PtYWvhnrk" target="_blank" rel="noopener">
-          <span class="ico"><svg><use href="#i-sp-arcos"/></svg></span><span><strong>Spotify</strong><small>Artista</small></span><svg class="ext"><use href="#i-ext"/></svg>
+        <a class="rede sp" href="https://open.spotify.com/artist/3nrKWCVEmRI25PtYWvhnrk" target="_blank" rel="noopener">
+          <svg class="dagua" aria-hidden="true"><use href="#i-sp"/></svg>
+          <span class="linha1"><span class="ico"><svg><use href="#i-sp-arcos"/></svg></span><svg class="ext"><use href="#i-ext"/></svg></span>
+          <span><strong>Spotify</strong><small>Ouça o artista</small></span>
         </a>
-        <a class="rede yt tile vidro" href="https://www.youtube.com/@maiconzimbrao04" target="_blank" rel="noopener">
-          <span class="ico"><svg><use href="#i-play"/></svg></span><span><strong>YouTube</strong><small>Canal oficial</small></span><svg class="ext"><use href="#i-ext"/></svg>
+        <a class="rede yt" href="https://www.youtube.com/@maiconzimbrao04" target="_blank" rel="noopener">
+          <svg class="dagua" aria-hidden="true"><use href="#i-yt"/></svg>
+          <span class="linha1"><span class="ico"><svg><use href="#i-play"/></svg></span><svg class="ext"><use href="#i-ext"/></svg></span>
+          <span><strong>YouTube</strong><small>Canal oficial</small></span>
         </a>
       </div>
     </section>
 
     <section class="secao revelar" aria-labelledby="t-exp">
       <div class="cabeca"><h2 id="t-exp">Experiências MZ</h2><span>4 formatos</span></div>
-      <div class="exps vidro">
-        <div class="abas" id="abas" role="tablist" aria-label="Experiências MZ">
-          <span class="indicador" aria-hidden="true"></span>
-          <button class="aba f1" type="button" role="tab" id="aba-1" aria-controls="exp-1" aria-selected="true"><span class="sel">MZ</span><span>Resenha</span></button>
-          <button class="aba f2" type="button" role="tab" id="aba-2" aria-controls="exp-2" aria-selected="false" tabindex="-1"><span class="sel">MiX</span><span>MiXturinha</span></button>
-          <button class="aba f3" type="button" role="tab" id="aba-3" aria-controls="exp-3" aria-selected="false" tabindex="-1"><span class="sel">360</span><span>Fervo 360°</span></button>
-          <button class="aba f4" type="button" role="tab" id="aba-4" aria-controls="exp-4" aria-selected="false" tabindex="-1"><span class="sel">RUN</span><span>Running</span></button>
-        </div>
-        <div class="paineis">
-          <div class="painel f1 on" id="exp-1" role="tabpanel" aria-labelledby="aba-1">
-            <span class="num" aria-hidden="true">01</span>
-            <span class="tag">Encontro</span>
-            <h3>Resenha MZ</h3>
-            <p>O encontro em roda, do jeito MZ: música ao vivo, gente perto e clima de resenha.</p>
-            <div class="pills"><span>Música ao vivo</span><span>Eventos privados</span><span>Confraternizações</span></div>
-            <a class="exp-cta" href="https://wa.me/5524988319412?text=Ol%C3%A1%2C%20Maicon!%20Quero%20saber%20mais%20sobre%20a%20Resenha%20MZ." target="_blank" rel="noopener">Quero a Resenha MZ<svg><use href="#i-seta"/></svg></a>
-          </div>
-          <div class="painel f2" id="exp-2" role="tabpanel" aria-labelledby="aba-2">
-            <span class="num" aria-hidden="true">02</span>
-            <span class="tag">Set</span>
-            <h3>MiXturinha do MZ</h3>
-            <p>Vários ritmos num set só, para a pista não parar do começo ao fim.</p>
-            <div class="pills"><span>Vários ritmos</span><span>Pista cheia</span><span>Festas</span></div>
-            <a class="exp-cta" href="https://wa.me/5524988319412?text=Ol%C3%A1%2C%20Maicon!%20Quero%20saber%20mais%20sobre%20a%20MiXturinha%20do%20MZ." target="_blank" rel="noopener">Quero a MiXturinha<svg><use href="#i-seta"/></svg></a>
-          </div>
-          <div class="painel f3" id="exp-3" role="tabpanel" aria-labelledby="aba-3">
-            <span class="num" aria-hidden="true">03</span>
-            <span class="tag">Festa</span>
-            <h3>Fervo 360°</h3>
-            <p>A festa completa, em todos os ângulos: show, estrutura e energia de ponta a ponta.</p>
-            <div class="pills"><span>Show completo</span><span>Produção MZ</span><span>Grandes eventos</span></div>
-            <a class="exp-cta" href="https://wa.me/5524988319412?text=Ol%C3%A1%2C%20Maicon!%20Quero%20saber%20mais%20sobre%20o%20Fervo%20360%C2%B0." target="_blank" rel="noopener">Quero o Fervo 360°<svg><use href="#i-seta"/></svg></a>
-          </div>
-          <div class="painel f4" id="exp-4" role="tabpanel" aria-labelledby="aba-4">
-            <span class="num" aria-hidden="true">04</span>
-            <span class="tag">Corrida</span>
-            <h3>Running e Resenha</h3>
-            <p>Corrida de manhã e resenha depois: esporte, música e encontro no mesmo rolê.</p>
-            <div class="pills"><span>Corrida</span><span>Música</span><span>Comunidade</span></div>
-            <a class="exp-cta" href="https://wa.me/5524988319412?text=Ol%C3%A1%2C%20Maicon!%20Quero%20saber%20mais%20sobre%20o%20Running%20e%20Resenha." target="_blank" rel="noopener">Quero o Running e Resenha<svg><use href="#i-seta"/></svg></a>
-          </div>
-        </div>
+      <div class="ingressos">
+        <a class="ingresso f1" href="https://wa.me/5524988319412?text=Ol%C3%A1%2C%20Maicon!%20Quero%20saber%20mais%20sobre%20a%20Resenha%20MZ." target="_blank" rel="noopener">
+          <span class="papel">
+            <span class="canhoto"><b>MZ</b><small>Nº 01</small></span>
+            <span class="info"><span class="tag">Encontro</span><strong>Resenha MZ</strong><small>Música ao vivo, gente perto e clima de resenha.</small></span>
+            <span class="ir"><span><svg><use href="#i-seta"/></svg></span></span>
+          </span>
+        </a>
+        <a class="ingresso f2" href="https://wa.me/5524988319412?text=Ol%C3%A1%2C%20Maicon!%20Quero%20saber%20mais%20sobre%20a%20MiXturinha%20do%20MZ." target="_blank" rel="noopener">
+          <span class="papel">
+            <span class="canhoto"><b>MiX</b><small>Nº 02</small></span>
+            <span class="info"><span class="tag">Set</span><strong>MiXturinha do MZ</strong><small>Vários ritmos num set só, pista cheia do começo ao fim.</small></span>
+            <span class="ir"><span><svg><use href="#i-seta"/></svg></span></span>
+          </span>
+        </a>
+        <a class="ingresso f3" href="https://wa.me/5524988319412?text=Ol%C3%A1%2C%20Maicon!%20Quero%20saber%20mais%20sobre%20o%20Fervo%20360%C2%B0." target="_blank" rel="noopener">
+          <span class="papel">
+            <span class="canhoto"><b>360°</b><small>Nº 03</small></span>
+            <span class="info"><span class="tag">Festa</span><strong>Fervo 360°</strong><small>Show, estrutura e energia de ponta a ponta.</small></span>
+            <span class="ir"><span><svg><use href="#i-seta"/></svg></span></span>
+          </span>
+        </a>
+        <a class="ingresso f4" href="https://wa.me/5524988319412?text=Ol%C3%A1%2C%20Maicon!%20Quero%20saber%20mais%20sobre%20o%20Running%20e%20Resenha." target="_blank" rel="noopener">
+          <span class="papel">
+            <span class="canhoto"><b>RUN</b><small>Nº 04</small></span>
+            <span class="info"><span class="tag">Corrida</span><strong>Running e Resenha</strong><small>Corrida de manhã e resenha depois, no mesmo rolê.</small></span>
+            <span class="ir"><span><svg><use href="#i-seta"/></svg></span></span>
+          </span>
+        </a>
       </div>
     </section>
 
-    <footer class="rodape revelar">
+<footer class="rodape revelar">
       <img class="rodape-logo" src="img/logo.png" alt="Maicon Zimbrão" width="1000" height="721">
       <p class="l1">Maicon Zimbrão · MZ Produções</p>
       <p class="l2">© 2026 Maicon Zimbrão. Todos os direitos reservados.</p>
@@ -477,7 +474,11 @@ a{color:inherit;text-decoration:none}
 
 <script>
 (function(){
-  var reduz = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  /* O movimento desta página foi pedido pelo cliente (vídeo, título cinético, luzes), então ele
+     roda também com "reduzir movimento" ligado, de forma contida: as luzes andam na metade da
+     velocidade. As revelações por rolagem continuam desligadas nesse modo (CSS). */
+  var pedeMenos = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var reduz = false, VEL = pedeMenos ? .5 : 1;
   var $ = function(id){ return document.getElementById(id); };
 
   if (!CSS.supports('animation-timeline: view()')) {
@@ -511,7 +512,7 @@ a{color:inherit;text-decoration:none}
     anima($('fotoBrilho'), [{opacity:0, transform:'translateX(-50%) scale(.8)'},{opacity:1, transform:'translateX(-50%) scale(1)'}], {duration:1000, delay:500, easing:LENTO});
     anima($('marca'),  [{clipPath:'inset(0 100% 0 0)'},{clipPath:'inset(0 0 0 0)'}], {duration:520, delay:350, easing:MACIO});
     anima($('agenda'), [{opacity:0, transform:'translateX(10px)'},{opacity:1, transform:'translateX(0)'}], {duration:480, delay:470, easing:MACIO});
-    anima($('luz'), [{opacity:0},{opacity:1}], {duration:1400, delay:80, easing:LENTO});
+    anima($('luz'), [{opacity:0},{opacity:.6}], {duration:1400, delay:80, easing:LENTO});
     anima($('chip'),   [{opacity:0, transform:'translateY(-8px)'},{opacity:1, transform:'translateY(0)'}], {duration:480, delay:900, easing:MACIO});
     var palavras = document.querySelectorAll('#nome .palavra > span'), t = 600, vao = 110, dur = [680, 600];
     palavras.forEach(function(p, i){ anima(p, [{transform:'translateY(1.05em)', opacity:0, offset:0},{transform:'translateY(1.05em)', opacity:1, offset:.001},{transform:'translateY(0)', opacity:1}], {duration:dur[i], delay:t, easing:SAIDA}); t += vao; vao *= 0.84; });
@@ -536,34 +537,6 @@ a{color:inherit;text-decoration:none}
     anima(sai, [{opacity:1},{opacity:0}], {duration:200, easing:'linear'});
     anima(entra, [{transform:'translateX(22px)', opacity:.35},{transform:'translateX(0)', opacity:1}], {duration:340, delay:190, easing:SAIDA});
   }
-  /* experiências: a aba escolhida move o indicador; o painel troca com cut the curve
-     no sentido do toque (a escolha da pessoa é a força que justifica a direção) */
-  var caixaAbas = $('abas'), abas = Array.prototype.slice.call(caixaAbas.querySelectorAll('.aba')),
-      paineis = Array.prototype.slice.call(document.querySelectorAll('.painel')), abaAtual = 0;
-  function escolhe(i, foco){
-    if (i === abaAtual) return;
-    var dir = i > abaAtual ? 1 : -1, sai = paineis[abaAtual], entra = paineis[i];
-    abas[abaAtual].setAttribute('aria-selected', 'false'); abas[abaAtual].tabIndex = -1;
-    abas[i].setAttribute('aria-selected', 'true'); abas[i].tabIndex = 0;
-    if (foco) abas[i].focus();
-    caixaAbas.style.setProperty('--i', i);
-    paineis.forEach(function(p){ p.getAnimations().forEach(function(a){ a.cancel(); }); p.classList.remove('saindo'); });
-    sai.classList.remove('on'); entra.classList.add('on'); abaAtual = i;
-    if (reduz) { anima(entra, [{opacity:0},{opacity:1}], {duration:200, easing:'linear'}); return; }
-    sai.classList.add('saindo');
-    var s1 = anima(sai, [{transform:'translateX(0)'},{transform:'translateX(' + (-30 * dir) + 'px)'}], {duration:250, easing:DENTRO});
-    anima(sai, [{opacity:1},{opacity:0}], {duration:160, easing:'linear'});
-    s1.onfinish = function(){ if (!sai.classList.contains('on')) { sai.classList.remove('saindo'); sai.getAnimations().forEach(function(a){ a.cancel(); }); } };
-    anima(entra, [{transform:'translateX(' + (28 * dir) + 'px)', opacity:.35},{transform:'translateX(0)', opacity:1}], {duration:380, delay:150, easing:SAIDA});
-  }
-  abas.forEach(function(b, i){ b.addEventListener('click', function(){ escolhe(i); }); });
-  caixaAbas.addEventListener('keydown', function(e){
-    var n = abas.length, alvo = null;
-    if (e.key === 'ArrowRight') alvo = (abaAtual + 1) % n; else if (e.key === 'ArrowLeft') alvo = (abaAtual - 1 + n) % n;
-    else if (e.key === 'Home') alvo = 0; else if (e.key === 'End') alvo = n - 1;
-    if (alvo !== null) { e.preventDefault(); escolhe(alvo, true); }
-  });
-
   function liga(){ if (timer) return; timer = setInterval(troca, 2800); }
   function desliga(){ clearInterval(timer); timer = null; }
   document.addEventListener('visibilitychange', function(){ document.hidden ? desliga() : liga(); });
@@ -694,7 +667,7 @@ a{color:inherit;text-decoration:none}
       requestAnimationFrame(quadro);
       if (ts - ult < 33) return; ult = ts;
       if (t0 === null) t0 = ts;
-      tAtual = 6 + (ts - t0) / 1000; desenha(tAtual);
+      tAtual = 6 + (ts - t0) / 1000 * VEL; desenha(tAtual);
     }
     function leRolagem(){ var d = document.documentElement; rolagem = d.scrollTop / Math.max(1, d.scrollHeight - d.clientHeight); }
     addEventListener('scroll', function(){
@@ -707,7 +680,27 @@ a{color:inherit;text-decoration:none}
     if (!reduz) requestAnimationFrame(quadro);
   })();
 
-  function comeca(){ if (!reduz) hero(); setTimeout(liga, reduz ? 1800 : 3400); }
+  /* vídeo de fundo: entra suave quando começa a tocar; pausa com a aba escondida;
+     parado no primeiro quadro com "reduzir movimento" */
+  (function(){
+    var vid = $('video'); if (!vid) return;
+    function mostra(){ vid.classList.add('ok'); }
+    vid.addEventListener('playing', mostra);
+    if (reduz) { vid.removeAttribute('autoplay'); vid.pause(); vid.addEventListener('loadeddata', mostra); if (vid.readyState >= 2) mostra(); return; }
+    function toca(){ var p = vid.play(); if (p && p.catch) p.catch(mostra); }
+    toca();
+    document.addEventListener('visibilitychange', function(){ if (document.hidden) vid.pause(); else toca(); });
+  })();
+
+  function comeca(){
+    if (!reduz) {
+      hero();
+      /* rede de segurança: em aparelho lento, a abertura nunca deixa a página escondida */
+      var abertura = document.getAnimations();
+      setTimeout(function(){ abertura.forEach(function(a){ if (a.playState !== 'finished') a.finish(); }); }, 4500);
+    }
+    setTimeout(liga, reduz ? 1800 : 3400);
+  }
   var pronto = false; function vai(){ if (pronto) return; pronto = true; comeca(); }
   if (document.fonts && document.fonts.load) Promise.all([document.fonts.load('900 1em Unbounded'), document.fonts.load('700 1em Unbounded'), document.fonts.load('600 1em Manrope')]).then(vai, vai);
   setTimeout(vai, 1400);
