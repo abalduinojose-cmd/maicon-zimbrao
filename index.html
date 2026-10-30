@@ -205,18 +205,25 @@ a{color:inherit;text-decoration:none}
 .app.sp{--marca:#1ed760;--sobre:#000;--brilho:rgba(30,215,96,.7)}
 .app.yt{--marca:#ff0033;--sobre:#fff;--brilho:rgba(255,0,51,.7)}
 
-/* vídeos: carrossel que arrasta para o lado; o clipe do meio fica grande e toca, os vizinhos espiam menores */
-.carrossel{--cw:min(66vw,300px);position:relative;display:flex;gap:14px;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch;
-  margin-inline:calc(-1 * var(--gl));padding:8px calc(50% - var(--cw) / 2) 14px}
-.carrossel::-webkit-scrollbar{display:none}
-.clipe{position:relative;flex:0 0 var(--cw);scroll-snap-align:center;scroll-snap-stop:always;margin:0;aspect-ratio:9/16;max-width:100%;border-radius:24px;overflow:hidden;isolation:isolate;cursor:pointer;background:var(--bg-2);
-  box-shadow:inset 0 0 0 1px rgba(255,255,255,.14),0 24px 50px -28px rgba(0,0,0,.9);transform:scale(.84);opacity:.5;transition:transform .55s var(--saida),opacity .55s var(--saida)}
-.clipe.ativo{transform:scale(1);opacity:1}
-.clipe:not(.ativo) .som,.clipe:not(.ativo) .tela,.clipe:not(.ativo) .barra{opacity:0;pointer-events:none}
+/* vídeos: grade limpa. O show grande à esquerda; eventos e boates empilhados ao lado.
+   Tocar num menor troca ele com o grande numa transição de forma (view transition) */
+.grade-v{display:grid;grid-template-columns:1.45fr 1fr;grid-auto-rows:1fr;gap:10px;margin-top:4px}
+.clipe{position:relative;margin:0;min-width:0;min-height:0;border-radius:22px;overflow:hidden;isolation:isolate;cursor:pointer;background:var(--bg-2);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.14),0 24px 50px -28px rgba(0,0,0,.9)}
+.clipe[data-pos="meio"]{grid-column:1;grid-row:1 / span 2;aspect-ratio:9/16}
+.clipe[data-pos="cima"]{grid-column:2;grid-row:1}
+.clipe[data-pos="baixo"]{grid-column:2;grid-row:2}
+.clipe:nth-child(1){view-transition-name:clipe-a}.clipe:nth-child(2){view-transition-name:clipe-b}.clipe:nth-child(3){view-transition-name:clipe-c}
+::view-transition-group(clipe-a),::view-transition-group(clipe-b),::view-transition-group(clipe-c){animation-duration:.6s;animation-timing-function:cubic-bezier(.22,1,.36,1)}
+.clipe:not(.ativo) .som,.clipe:not(.ativo) .tela,.clipe:not(.ativo) .barra{display:none}
+.clipe:not(.ativo) figcaption{left:12px;right:10px;bottom:12px}
+.clipe:not(.ativo) .tag{font-size:.56rem}
+.clipe:not(.ativo) strong{font-size:.78rem}
+.clipe:not(.ativo)::before{content:"";position:absolute;left:50%;top:42%;width:44px;height:44px;margin:-22px 0 0 -22px;border-radius:50%;z-index:2;
+  background:rgba(12,10,17,.45) url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='white' d='M9 6.5v11l9-5.5z'/></svg>") center/18px no-repeat;
+  border:1px solid rgba(255,255,255,.3);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);transition:background-color .3s,transform .35s var(--saida)}
+.clipe:not(.ativo):hover::before{background-color:rgba(255,122,61,.9);transform:scale(1.06)}
 .som,.tela,.barra{transition:opacity .35s}
-.pontos-v{display:flex;justify-content:center;gap:8px;margin-top:-2px}
-.pontos-v button{width:8px;height:8px;padding:0;border:0;border-radius:4px;background:rgba(255,255,255,.28);cursor:pointer;transition:width .45s var(--saida),background .3s}
-.pontos-v button[aria-current="true"]{width:26px;background:var(--laranja)}
 .clipe video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;z-index:-1}
 .clipe::after{content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;
   background:linear-gradient(180deg,rgba(12,10,17,.3),transparent 26%,transparent 55%,rgba(12,10,17,.88));box-shadow:inset 0 0 0 1px rgba(255,255,255,.12)}
@@ -467,33 +474,28 @@ a{color:inherit;text-decoration:none}
 
     <section class="secao revelar" aria-labelledby="t-videos">
       <div class="cabeca"><h2 id="t-videos">Vídeos</h2><a href="https://www.instagram.com/maicon_zimbrao.mz/" target="_blank" rel="noopener">Ver no Instagram</a></div>
-      <div class="carrossel" id="carrossel" aria-label="Vídeos: arraste para o lado">
-        <figure class="clipe">
+      <div class="grade-v" id="palcoV">
+        <figure class="clipe" data-pos="cima">
           <video muted loop playsinline preload="metadata" poster="img/video-1-capa.jpg" aria-label="Maicon Zimbrão animando uma festa particular"><source src="img/video-1.mp4" type="video/mp4"></video>
           <button class="som" type="button" aria-pressed="false" aria-label="Ativar som"><svg aria-hidden="true"><use href="#i-mudo"/></svg></button>
           <button class="tela" type="button" aria-label="Ver em tela cheia"><svg aria-hidden="true"><use href="#i-tela"/></svg></button>
           <figcaption><span class="tag">Eventos</span><strong>Festa particular</strong></figcaption>
           <span class="barra" aria-hidden="true"><i></i></span>
         </figure>
-        <figure class="clipe ativo">
+        <figure class="clipe ativo" data-pos="meio">
           <video muted loop playsinline preload="metadata" poster="img/video-2-capa.jpg" aria-label="Maicon Zimbrão ao vivo no palco, com a praça lotada"><source src="img/video-2.mp4" type="video/mp4"></video>
           <button class="som" type="button" aria-pressed="false" aria-label="Ativar som"><svg aria-hidden="true"><use href="#i-mudo"/></svg></button>
           <button class="tela" type="button" aria-label="Ver em tela cheia"><svg aria-hidden="true"><use href="#i-tela"/></svg></button>
           <figcaption><span class="tag">Show</span><strong>Ao vivo na praça</strong></figcaption>
           <span class="barra" aria-hidden="true"><i></i></span>
         </figure>
-        <figure class="clipe">
+        <figure class="clipe" data-pos="baixo">
           <video muted loop playsinline preload="metadata" poster="img/video-3-capa.jpg" aria-label="Maicon Zimbrão cantando numa boate cheia"><source src="img/video-3.mp4" type="video/mp4"></video>
           <button class="som" type="button" aria-pressed="false" aria-label="Ativar som"><svg aria-hidden="true"><use href="#i-mudo"/></svg></button>
           <button class="tela" type="button" aria-label="Ver em tela cheia"><svg aria-hidden="true"><use href="#i-tela"/></svg></button>
           <figcaption><span class="tag">Boates</span><strong>Noite na boate</strong></figcaption>
           <span class="barra" aria-hidden="true"><i></i></span>
         </figure>
-      </div>
-      <div class="pontos-v" id="pontosV">
-        <button type="button" aria-label="Vídeo do evento" aria-current="false"></button>
-        <button type="button" aria-label="Vídeo do show" aria-current="true"></button>
-        <button type="button" aria-label="Vídeo da boate" aria-current="false"></button>
       </div>
     </section>
 
@@ -773,13 +775,10 @@ a{color:inherit;text-decoration:none}
     }, 8000);
   })();
 
-  /* vídeos: carrossel que arrasta para o lado. Só o clipe do meio toca (mudo); tocar num vizinho
-     traz ele para o meio; tocar no do meio liga o som; o show começa no meio */
+  /* vídeos: o grande toca (mudo); tocar num menor troca ele com o grande; tocar no do meio liga o som */
   (function(){
-    var trilho = $('carrossel'); if (!trilho) return;
-    var clipes = Array.prototype.slice.call(trilho.querySelectorAll('.clipe'));
-    var pontos = Array.prototype.slice.call(document.querySelectorAll('#pontosV button'));
-    var ativo = 0; clipes.forEach(function(c, k){ if (c.classList.contains('ativo')) ativo = k; });
+    var palco = $('palcoV'); if (!palco) return;
+    var clipes = Array.prototype.slice.call(palco.querySelectorAll('.clipe'));
     var visivel = false;
     function toca(v){ var p = v.play(); if (p && p.catch) p.catch(function(){}); }
     function estado(c, ligado){
@@ -789,40 +788,25 @@ a{color:inherit;text-decoration:none}
       b.querySelector('use').setAttribute('href', ligado ? '#i-som' : '#i-mudo');
     }
     function emTelaCheia(v){ return document.fullscreenElement === v || v.webkitDisplayingFullscreen; }
-    function centro(i, suave){
-      var c = clipes[i];
-      trilho.scrollTo({ left: c.offsetLeft + c.offsetWidth / 2 - trilho.clientWidth / 2, behavior: suave ? 'smooth' : 'instant' });
+    function meio(){ return clipes.filter(function(c){ return c.dataset.pos === 'meio'; })[0]; }
+    function cala(c){ var v = c.querySelector('video'); if (emTelaCheia(v)) return; v.pause(); v.muted = true; estado(c, false); }
+    function traz(c){
+      var atual = meio(); if (c === atual) return;
+      var lado = c.dataset.pos;
+      var faz = function(){ c.dataset.pos = 'meio'; atual.dataset.pos = lado; atual.classList.remove('ativo'); c.classList.add('ativo'); };
+      if (document.startViewTransition) document.startViewTransition(faz); else faz();
+      cala(atual);
+      if (visivel) toca(c.querySelector('video'));
     }
-    function marca(i){
-      clipes.forEach(function(c, k){
-        var on = k === i, v = c.querySelector('video');
-        c.classList.toggle('ativo', on);
-        if (!on && !emTelaCheia(v)) { v.pause(); v.muted = true; estado(c, false); }
-      });
-      pontos.forEach(function(p, k){ p.setAttribute('aria-current', k === i ? 'true' : 'false'); });
-      ativo = i;
-      if (visivel) toca(clipes[i].querySelector('video'));
-    }
-    var pedido = false;
-    trilho.addEventListener('scroll', function(){
-      if (pedido) return; pedido = true;
-      requestAnimationFrame(function(){
-        pedido = false;
-        var meio = trilho.scrollLeft + trilho.clientWidth / 2, melhor = ativo, dist = 1e9;
-        clipes.forEach(function(c, k){ var d = Math.abs(c.offsetLeft + c.offsetWidth / 2 - meio); if (d < dist) { dist = d; melhor = k; } });
-        if (melhor !== ativo) marca(melhor);
-      });
-    }, { passive: true });
     var io = new IntersectionObserver(function(es){
       es.forEach(function(e){
         visivel = e.isIntersecting;
-        var v = clipes[ativo].querySelector('video'); if (emTelaCheia(v)) return;
-        if (visivel) toca(v);
-        else clipes.forEach(function(c){ var ov = c.querySelector('video'); ov.pause(); ov.muted = true; estado(c, false); });
+        var v = meio().querySelector('video'); if (emTelaCheia(v)) return;
+        if (visivel) toca(v); else clipes.forEach(cala);
       });
     }, { threshold: .3 });
-    io.observe(trilho);
-    clipes.forEach(function(c, k){
+    io.observe(palco);
+    clipes.forEach(function(c){
       var v = c.querySelector('video');
       c.querySelector('.tela').addEventListener('click', function(ev){
         ev.stopPropagation();
@@ -835,17 +819,12 @@ a{color:inherit;text-decoration:none}
         } catch (e) {}
       });
       c.addEventListener('click', function(){
-        if (k !== ativo) { centro(k, true); return; }
+        if (c.dataset.pos !== 'meio') { traz(c); return; }
         var ligar = v.muted;
         clipes.forEach(function(o){ o.querySelector('video').muted = true; estado(o, false); });
         if (ligar) { v.muted = false; estado(c, true); toca(v); }
       });
     });
-    pontos.forEach(function(p, k){ p.addEventListener('click', function(){ centro(k, true); }); });
-    // o show começa no meio
-    centro(ativo, false);
-    window.addEventListener('load', function(){ centro(ativo, false); });
-    var rt; window.addEventListener('resize', function(){ clearTimeout(rt); rt = setTimeout(function(){ centro(ativo, false); }, 120); });
     /* em tela cheia o vídeo ganha os controles do próprio navegador */
     document.addEventListener('fullscreenchange', function(){
       clipes.forEach(function(o){ var ov = o.querySelector('video'); ov.controls = document.fullscreenElement === ov; });
