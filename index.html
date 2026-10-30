@@ -10,9 +10,9 @@
 <meta property="og:title" content="Maicon Zimbrão · MZ Produções">
 <meta property="og:description" content="Shows, eventos e experiências. Agenda aberta: reserve sua data.">
 <meta property="og:url" content="https://abalduinojose-cmd.github.io/maicon-zimbrao/">
-<meta property="og:image" content="https://abalduinojose-cmd.github.io/maicon-zimbrao/img/capa.jpg">
-<meta property="og:image:width" content="640">
-<meta property="og:image:height" content="640">
+<meta property="og:image" content="https://abalduinojose-cmd.github.io/maicon-zimbrao/img/foto-oculos.jpg">
+<meta property="og:image:width" content="900">
+<meta property="og:image:height" content="1350">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" type="image/png" href="img/logo.png">
 <link rel="apple-touch-icon" href="img/capa.jpg">
@@ -103,7 +103,9 @@ a{color:inherit;text-decoration:none}
 .hero{position:relative;display:flex;flex-direction:column}
 .foto-moldura{position:relative;border-radius:30px;overflow:hidden;aspect-ratio:1/1.08;max-width:100%;background:var(--bg-2);
   box-shadow:0 30px 80px -30px rgba(0,0,0,.9),inset 0 0 0 1px rgba(255,255,255,.08)}
-.foto-moldura img{display:block;width:100%;height:100%;object-fit:cover;object-position:center 0;transform:scale(1.32);transform-origin:center 6%}
+.slides{position:absolute;inset:0;will-change:transform}
+.slide{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:cover;object-position:var(--pos,center 15%);opacity:0;will-change:transform,clip-path}
+.slide.on{opacity:1}
 .foto-veu{position:absolute;inset:0;background:linear-gradient(180deg,rgba(12,10,17,.12),rgba(12,10,17,0) 28%,rgba(12,10,17,.3) 48%,rgba(12,10,17,.86) 66%,rgba(12,10,17,.98) 80%,var(--bg) 100%)}
 .foto-brilho{position:absolute;left:50%;bottom:-25%;width:130%;height:75%;transform:translateX(-50%);opacity:0;pointer-events:none;
   background:radial-gradient(50% 60% at 50% 100%,rgba(255,122,61,.6),transparent 70%)}
@@ -199,6 +201,25 @@ a{color:inherit;text-decoration:none}
 .app.mz{--marca:linear-gradient(135deg,#ff8a4a,#ff4d6d);--sobre:#fff;--brilho:rgba(255,110,70,.7)}
 .app.sp{--marca:#1ed760;--sobre:#000;--brilho:rgba(30,215,96,.7)}
 .app.yt{--marca:#ff0033;--sobre:#fff;--brilho:rgba(255,0,51,.7)}
+
+/* vídeos: dois clipes verticais lado a lado, tocam mudos quando aparecem; um toque liga o som */
+.videos{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.clipe{position:relative;margin:0;aspect-ratio:9/16;max-width:100%;border-radius:22px;overflow:hidden;isolation:isolate;cursor:pointer;background:var(--bg-2);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.14),0 24px 50px -28px rgba(0,0,0,.9);transition:transform .45s var(--saida)}
+.clipe:hover{transform:translateY(-3px)}
+.clipe video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;z-index:-1}
+.clipe::after{content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;
+  background:linear-gradient(180deg,rgba(12,10,17,.3),transparent 26%,transparent 55%,rgba(12,10,17,.88));box-shadow:inset 0 0 0 1px rgba(255,255,255,.12)}
+.clipe figcaption{position:absolute;left:12px;right:12px;bottom:16px;z-index:1}
+.clipe .tag{font-size:.58rem}
+.clipe strong{display:block;margin-top:3px;font-family:var(--display);font-weight:700;font-size:.82rem;letter-spacing:-.015em;line-height:1.2}
+.som{position:absolute;right:10px;top:10px;z-index:2;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;padding:0;cursor:pointer;color:#fff;
+  border:1px solid rgba(255,255,255,.22);background:rgba(12,10,17,.45);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);transition:background .3s,color .3s,border-color .3s,transform .35s var(--saida)}
+.som svg{width:17px;height:17px}
+.som[aria-pressed="true"]{background:var(--laranja);color:#1a0d08;border-color:transparent}
+.clipe:hover .som{transform:scale(1.06)}
+.barra{position:absolute;left:12px;right:12px;bottom:8px;z-index:1;height:2px;border-radius:2px;background:rgba(255,255,255,.18);overflow:hidden}
+.barra i{display:block;height:100%;background:var(--laranja);transform-origin:left;transform:scaleX(0)}
 
 /* experiências: lista limpa num só cartão; cada formato tem um ícone próprio na sua cor,
    que se acende no toque; a cor aparece também no rótulo e na seta */
@@ -318,6 +339,8 @@ a{color:inherit;text-decoration:none}
   <symbol id="i-mix" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 3.5v17M12 3.5v17M19 3.5v17"/><rect x="2.8" y="13" width="4.4" height="3.2" rx="1.4" fill="currentColor"/><rect x="9.8" y="6.5" width="4.4" height="3.2" rx="1.4" fill="currentColor"/><rect x="16.8" y="10.5" width="4.4" height="3.2" rx="1.4" fill="currentColor"/></symbol>
   <symbol id="i-360" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 12a8.5 8.5 0 1 1-2.6-6.1"/><path d="M18.6 2.4v4h-4"/><circle cx="12" cy="12" r="2.3" fill="currentColor" stroke="none"/></symbol>
   <symbol id="i-run" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="15" cy="4.3" r="1.9"/><path d="M5.5 11.5 9 8.3h4.3l2.2 3.2 3.3 1"/><path d="M13.3 8.3 11.4 14l3.4 2.6-1 4.4"/><path d="M11.4 14 9 16.6 5 17.4"/></symbol>
+  <symbol id="i-mudo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 9.5v5H7l4.5 4v-13L7 9.5H3.5Z"/><path d="m16 9.5 5 5M21 9.5l-5 5"/></symbol>
+  <symbol id="i-som" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 9.5v5H7l4.5 4v-13L7 9.5H3.5Z"/><path d="M15.5 9a4.5 4.5 0 0 1 0 6M18.3 6.3a8.2 8.2 0 0 1 0 11.4"/></symbol>
   <symbol id="i-cal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15.5" rx="3.2"/><path d="M3.5 10h17M8 3v4M16 3v4"/><path d="m9 15.2 2 2 4-4"/></symbol>
   <symbol id="i-mic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></symbol>
 </svg>
@@ -346,7 +369,10 @@ a{color:inherit;text-decoration:none}
 
     <section class="hero" aria-label="Maicon Zimbrão">
       <div class="foto-moldura" id="foto">
-        <img src="img/capa.jpg" alt="Maicon Zimbrão de óculos escuros e jaqueta jeans" width="640" height="640">
+        <div class="slides" id="slides">
+          <img class="slide on" src="img/foto-oculos.jpg" alt="Maicon Zimbrão de óculos escuros e camiseta preta" width="900" height="1350" style="--pos:center 14%">
+          <img class="slide" src="img/foto-sanfona.jpg" alt="Maicon Zimbrão sorrindo com a sanfona" width="900" height="925" style="--pos:center 10%">
+        </div>
         <div class="foto-veu"></div>
         <div class="foto-brilho" id="fotoBrilho"></div>
         <span class="foto-chip" id="chip"><span><svg><use href="#i-mic"/></svg>Cantor</span><span>Shows</span><span>Eventos</span></span>
@@ -425,6 +451,24 @@ a{color:inherit;text-decoration:none}
       </nav>
     </section>
 
+    <section class="secao revelar" aria-labelledby="t-videos">
+      <div class="cabeca"><h2 id="t-videos">Vídeos</h2><a href="https://www.youtube.com/@maiconzimbrao04" target="_blank" rel="noopener">Ver no YouTube</a></div>
+      <div class="videos">
+        <figure class="clipe">
+          <video muted loop playsinline preload="metadata" poster="img/video-2-capa.jpg" aria-label="Maicon Zimbrão ao vivo no palco, com a praça lotada"><source src="img/video-2.mp4" type="video/mp4"></video>
+          <button class="som" type="button" aria-pressed="false" aria-label="Ativar som"><svg aria-hidden="true"><use href="#i-mudo"/></svg></button>
+          <figcaption><span class="tag">Show</span><strong>Ao vivo na praça</strong></figcaption>
+          <span class="barra" aria-hidden="true"><i></i></span>
+        </figure>
+        <figure class="clipe">
+          <video muted loop playsinline preload="metadata" poster="img/video-1-capa.jpg" aria-label="Maicon Zimbrão animando uma festa particular"><source src="img/video-1.mp4" type="video/mp4"></video>
+          <button class="som" type="button" aria-pressed="false" aria-label="Ativar som"><svg aria-hidden="true"><use href="#i-mudo"/></svg></button>
+          <figcaption><span class="tag">Evento</span><strong>Festa particular</strong></figcaption>
+          <span class="barra" aria-hidden="true"><i></i></span>
+        </figure>
+      </div>
+    </section>
+
     <section class="secao revelar" aria-labelledby="t-exp">
       <div class="cabeca"><h2 id="t-exp">Experiências MZ</h2><span>4 formatos</span></div>
       <div class="lista-exp vidro">
@@ -498,7 +542,7 @@ a{color:inherit;text-decoration:none}
   function hero(){
     var foto = $('foto');
     anima(foto, [{clipPath:'inset(0 0 100% 0 round 30px)'},{clipPath:'inset(0 0 0 0 round 30px)'}], {duration:900, delay:150, easing:SAIDA});
-    anima(foto.querySelector('img'), [{transform:'scale(1.42)'},{transform:'scale(1.32)'}], {duration:1700, delay:150, easing:EXPO});
+    anima($('slides'), [{transform:'scale(1.1)'},{transform:'scale(1)'}], {duration:1700, delay:150, easing:EXPO});
     anima($('fotoBrilho'), [{opacity:0, transform:'translateX(-50%) scale(.8)'},{opacity:1, transform:'translateX(-50%) scale(1)'}], {duration:1000, delay:500, easing:LENTO});
     anima($('marca'),  [{clipPath:'inset(0 100% 0 0)'},{clipPath:'inset(0 0 0 0)'}], {duration:520, delay:350, easing:MACIO});
     anima($('agenda'), [{opacity:0, transform:'translateX(10px)'},{opacity:1, transform:'translateX(0)'}], {duration:480, delay:470, easing:MACIO});
@@ -680,6 +724,53 @@ a{color:inherit;text-decoration:none}
     function toca(){ var p = vid.play(); if (p && p.catch) p.catch(mostra); }
     toca();
     document.addEventListener('visibilitychange', function(){ if (document.hidden) vid.pause(); else toca(); });
+  })();
+
+  /* fotos do destaque: trocam a cada 8 s; a nova sobe como cortina por cima da anterior,
+     e cada foto faz um push lento de câmera enquanto está em cena */
+  (function(){
+    var slides = Array.prototype.slice.call(document.querySelectorAll('#slides .slide')); if (slides.length < 2) return;
+    var atualS = 0;
+    function push(el){ anima(el, [{transform:'scale(1)'},{transform:'scale(1.07)'}], {duration:9400, easing:'linear'}); }
+    push(slides[0]);
+    setInterval(function(){
+      if (document.hidden) return;
+      var sai = slides[atualS], entra = slides[(atualS + 1) % slides.length];
+      atualS = (atualS + 1) % slides.length;
+      entra.getAnimations().forEach(function(a){ a.cancel(); });
+      sai.style.zIndex = 1; entra.style.zIndex = 2; entra.classList.add('on');
+      push(entra);
+      var c = anima(entra, [{clipPath:'inset(100% 0 0 0)'},{clipPath:'inset(0% 0 0 0)'}], {duration:1100, easing:SAIDA});
+      c.onfinish = function(){ if (slides[atualS] !== sai) sai.classList.remove('on'); };
+    }, 8000);
+  })();
+
+  /* vídeos: tocam mudos só quando estão na tela; tocar no clipe liga o som dele e cala o outro */
+  (function(){
+    var clipes = Array.prototype.slice.call(document.querySelectorAll('.clipe')); if (!clipes.length) return;
+    function toca(v){ var p = v.play(); if (p && p.catch) p.catch(function(){}); }
+    function estado(c, ligado){
+      var b = c.querySelector('.som');
+      b.setAttribute('aria-pressed', ligado ? 'true' : 'false');
+      b.setAttribute('aria-label', ligado ? 'Desativar som' : 'Ativar som');
+      b.querySelector('use').setAttribute('href', ligado ? '#i-som' : '#i-mudo');
+    }
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){ var v = e.target.querySelector('video'); if (e.isIntersecting) toca(v); else { v.pause(); v.muted = true; estado(e.target, false); } });
+    }, { threshold: .35 });
+    clipes.forEach(function(c){
+      var v = c.querySelector('video');
+      io.observe(c);
+      c.addEventListener('click', function(){
+        var ligar = v.muted;
+        clipes.forEach(function(o){ o.querySelector('video').muted = true; estado(o, false); });
+        if (ligar) { v.muted = false; estado(c, true); toca(v); }
+      });
+    });
+    (function barras(){
+      clipes.forEach(function(c){ var v = c.querySelector('video'); if (v.duration && !v.paused) c.querySelector('.barra i').style.transform = 'scaleX(' + (v.currentTime / v.duration).toFixed(4) + ')'; });
+      requestAnimationFrame(barras);
+    })();
   })();
 
   function comeca(){
