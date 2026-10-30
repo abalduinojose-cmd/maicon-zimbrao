@@ -23,8 +23,8 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800;900&family=Manrope:wght@400;500;600;700&display=swap">
 <style>
 /* Layout: palco escuro de show com a capa desfocada como luz ambiente. No celular, uma coluna:
-   foto com o nome cinético pousando sobre ela, WhatsApp como herói, lançamento, redes em blocos de marca e as experiências
-   como ingressos. Vídeo do show ao fundo. No desktop, o painel do artista fica fixo à esquerda e o
+   foto com o nome cinético pousando sobre ela, WhatsApp como herói, lançamento, redes numa barra de ícones e as experiências
+   numa lista limpa. Vídeo do show ao fundo. No desktop, o painel do artista fica fixo à esquerda e o
    conteúdo rola à direita. Superfícies de vidro, brilho laranja contido. Um tema só. */
 :root{
   --bg:#0c0a11;
@@ -184,58 +184,40 @@ a{color:inherit;text-decoration:none}
 .chip.sp svg{color:#1ed760}.chip.yt svg{color:#ff4b4b}
 .cta.wa .ico svg,.cta.sp .ico svg,.cta.yt .ico svg{width:24px;height:24px}
 
-/* redes: blocos nas cores de cada marca, com a marca gigante vazando no canto */
-.redes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-.rede{--glow:rgba(0,0,0,.4);position:relative;display:flex;flex-direction:column;justify-content:space-between;gap:28px;min-width:0;min-height:146px;padding:14px;border-radius:24px;overflow:hidden;isolation:isolate;color:#fff;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.3),0 20px 40px -24px var(--glow);transition:transform .45s var(--saida),box-shadow .35s}
-.rede:hover{transform:translateY(-4px);box-shadow:inset 0 1px 0 rgba(255,255,255,.34),0 28px 50px -22px var(--glow)}
-.rede:active{transform:scale(.98)}
-.rede .dagua{position:absolute;right:-24px;bottom:-28px;width:124px;height:124px;opacity:.2;z-index:-1;transition:transform .7s var(--saida)}
-.rede:hover .dagua{transform:rotate(-10deg) scale(1.08)}
-.rede .linha1{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
-.rede .ico{flex:none;width:40px;height:40px;border-radius:13px;display:grid;place-items:center;background:rgba(255,255,255,.22);box-shadow:inset 0 1px 0 rgba(255,255,255,.35)}
-.rede .ico svg{width:21px;height:21px}
-.rede .ico.foto{border-radius:50%;padding:2px;background:#fff}
-.rede .ico.foto img{display:block;width:100%;height:100%;border-radius:50%;object-fit:cover;object-position:center 6%}
-.rede .ext{flex:none;width:18px;height:18px;opacity:.85;transition:transform .35s var(--saida)}
-.rede:hover .ext{transform:translate(2px,-2px)}
-.rede strong{display:block;font-family:var(--display);font-weight:800;font-size:.86rem;letter-spacing:-.015em;line-height:1.15}
-.rede small{display:block;font-size:.72rem;font-weight:600;opacity:.85;margin-top:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.rede.ig{--glow:rgba(238,42,123,.65);background:radial-gradient(135% 135% at 100% 0%,#ffd35a 0%,#f9773a 24%,#ee2a7b 50%,#8a3ab9 78%,#4c5fd7 100%)}
-.rede.mz{--glow:rgba(255,122,61,.5);background:linear-gradient(160deg,#2c2335,#110e17);box-shadow:inset 0 0 0 1px rgba(255,255,255,.14),inset 0 1px 0 rgba(255,255,255,.22),0 20px 40px -24px var(--glow)}
-.rede.mz .ico{background:linear-gradient(45deg,#f9ce34,#ee2a7b 55%,#6228d7)}
-.rede.mz .dagua{width:170px;height:auto;right:-30px;bottom:-22px;opacity:.18}
-.rede.sp{--glow:rgba(30,215,96,.6);background:linear-gradient(160deg,#2ee472,#17ad4e);color:#05150b}
-.rede.sp .ico{background:#0b0b0d;color:#1ed760;box-shadow:none}
-.rede.yt{--glow:rgba(255,0,51,.6);background:linear-gradient(160deg,#ff2b4f,#cf0029)}
+/* redes: barra minimalista de ícones em vidro; a cor da marca só aparece no toque */
+.dock{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;padding:16px 8px 14px;border-radius:24px}
+.app{display:flex;flex-direction:column;align-items:center;gap:9px;min-width:0;padding:2px;border-radius:16px;color:var(--fg)}
+.app .bola{width:56px;height:56px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.12);transition:transform .45s var(--saida),box-shadow .35s,border-color .35s,color .3s}
+.app .bola svg{width:23px;height:23px}
+.app .bola img{width:38px;height:auto}
+.app > span:last-child{font-size:.7rem;font-weight:600;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;transition:color .3s}
+.app:hover .bola,.app:focus-visible .bola{transform:translateY(-3px);background:var(--marca);border-color:transparent;color:var(--sobre);box-shadow:0 14px 28px -12px var(--brilho)}
+.app:hover > span:last-child,.app:focus-visible > span:last-child{color:var(--fg)}
+.app:active .bola{transform:scale(.94);background:var(--marca);color:var(--sobre)}
+.app.ig{--marca:linear-gradient(45deg,#f9ce34,#ee2a7b 55%,#6228d7);--sobre:#fff;--brilho:rgba(238,42,123,.7)}
+.app.mz{--marca:linear-gradient(135deg,#ff8a4a,#ff4d6d);--sobre:#fff;--brilho:rgba(255,110,70,.7)}
+.app.sp{--marca:#1ed760;--sobre:#000;--brilho:rgba(30,215,96,.7)}
+.app.yt{--marca:#ff0033;--sobre:#fff;--brilho:rgba(255,0,51,.7)}
 
-/* experiências: cada formato é um ingresso, com canhoto destacável e picote */
-.f1{--g:linear-gradient(150deg,#ff8a4a,#ff4d6d);--tint:rgba(255,110,70,.55);--tx:#1a0d08}
-.f2{--g:linear-gradient(150deg,#8a6bff,#ff4d8a);--tint:rgba(130,95,255,.55);--tx:#fff}
-.f3{--g:linear-gradient(150deg,#4cea95,#14a86a);--tint:rgba(61,220,132,.5);--tx:#05210f}
-.f4{--g:linear-gradient(150deg,#ffd256,#ff8a3d);--tint:rgba(255,196,61,.5);--tx:#1f1204}
-.ingressos{display:flex;flex-direction:column;gap:10px}
-.ingresso{display:block;border-radius:20px;transition:transform .45s var(--saida)}
-.ingresso:hover{transform:translateY(-3px)}
-.ingresso:active{transform:scale(.985)}
-.papel{--c:86px;display:grid;grid-template-columns:var(--c) minmax(0,1fr) auto;min-height:96px;border-radius:20px;overflow:hidden;
-  background:linear-gradient(180deg,rgba(255,255,255,.11),rgba(255,255,255,.045));border:1px solid rgba(255,255,255,.13);
-  -webkit-backdrop-filter:blur(18px) saturate(1.2);backdrop-filter:blur(18px) saturate(1.2);
-  -webkit-mask:radial-gradient(circle 10px at var(--c) 0,#0000 96%,#000) top/100% 51% no-repeat,radial-gradient(circle 10px at var(--c) 100%,#0000 96%,#000) bottom/100% 51% no-repeat;
-          mask:radial-gradient(circle 10px at var(--c) 0,#0000 96%,#000) top/100% 51% no-repeat,radial-gradient(circle 10px at var(--c) 100%,#0000 96%,#000) bottom/100% 51% no-repeat}
-.canhoto{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;background:var(--g);color:var(--tx);border-right:2px dashed rgba(12,10,17,.35)}
-.canhoto b{font-family:var(--display);font-weight:900;font-size:1rem;letter-spacing:-.02em;line-height:1}
-.canhoto small{font-size:.56rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;opacity:.72}
-.info{position:relative;isolation:isolate;display:flex;flex-direction:column;justify-content:center;min-width:0;padding:12px 6px 12px 16px}
-.info::before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(85% 130% at 0% 50%,var(--tint),transparent 70%);opacity:.32;transition:opacity .4s}
-.ingresso:hover .info::before{opacity:.7}
-.info .tag{font-size:.6rem}
-.info strong{display:block;margin-top:3px;font-family:var(--display);font-weight:800;font-size:.9rem;letter-spacing:-.02em;line-height:1.15}
-.info small{margin-top:4px;color:var(--muted);font-size:.74rem;line-height:1.38;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.ir{display:grid;place-items:center;padding:0 14px 0 6px}
-.ir span{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:var(--g);color:var(--tx);box-shadow:0 10px 22px -10px var(--tint),inset 0 1px 0 rgba(255,255,255,.35);transition:transform .45s var(--saida)}
-.ingresso:hover .ir span{transform:rotate(-45deg)}
-.ir svg{width:18px;height:18px}
+/* experiências: lista limpa num só cartão; a cor de cada formato vira apenas um ponto */
+.lista-exp{display:flex;flex-direction:column;padding:6px;border-radius:24px}
+.xp{position:relative;display:grid;grid-template-columns:12px minmax(0,1fr) auto;align-items:center;gap:14px;padding:15px 12px 15px 14px;border-radius:18px;transition:background .3s var(--macio)}
+.xp + .xp::before{content:"";position:absolute;left:40px;right:14px;top:0;height:1px;background:rgba(255,255,255,.08);transition:opacity .3s}
+.xp:hover{background:rgba(255,255,255,.06)}
+.xp:hover::before,.xp:hover + .xp::before{opacity:0}
+.xp .ponto{width:10px;height:10px;border-radius:50%;background:var(--c);box-shadow:0 0 0 4px var(--h),0 0 14px var(--c)}
+.xp strong{display:block;font-family:var(--display);font-weight:700;font-size:.9rem;letter-spacing:-.015em;line-height:1.2}
+.xp small{display:block;margin-top:3px;color:var(--muted);font-size:.78rem;line-height:1.4}
+.xp .vai{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;color:var(--muted);border:1px solid rgba(255,255,255,.13);
+  transition:transform .45s var(--saida),color .3s,border-color .3s,box-shadow .3s}
+.xp .vai svg{width:15px;height:15px}
+.xp:hover .vai,.xp:focus-visible .vai{background:var(--c);border-color:transparent;color:#120f18;transform:translateX(2px);box-shadow:0 10px 22px -10px var(--c)}
+.xp:active{background:rgba(255,255,255,.08)}
+.xp.a{--c:#ff7a3d;--h:rgba(255,122,61,.18)}
+.xp.b{--c:#8f72ff;--h:rgba(143,114,255,.2)}
+.xp.c{--c:#3ddc84;--h:rgba(61,220,132,.18)}
+.xp.d{--c:#ffc43d;--h:rgba(255,196,61,.18)}
 
 /* rodapé */
 .rodape{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:4px;align-items:center;text-align:center;color:var(--muted);font-size:.8rem}
@@ -405,61 +387,45 @@ a{color:inherit;text-decoration:none}
     </section>
 
     <section class="secao revelar" aria-labelledby="t-redes">
-      <div class="cabeca"><h2 id="t-redes">Redes</h2><span>4 canais</span></div>
-      <div class="redes">
-        <a class="rede ig" href="https://www.instagram.com/maicon_zimbrao.mz/" target="_blank" rel="noopener">
-          <svg class="dagua" aria-hidden="true"><use href="#i-ig"/></svg>
-          <span class="linha1"><span class="ico foto"><img src="img/capa.jpg" alt="" width="80" height="80"></span><svg class="ext"><use href="#i-ext"/></svg></span>
-          <span><strong>Instagram</strong><small>@maicon_zimbrao.mz</small></span>
+      <div class="cabeca"><h2 id="t-redes">Redes</h2></div>
+      <nav class="dock vidro" aria-labelledby="t-redes">
+        <a class="app ig" href="https://www.instagram.com/maicon_zimbrao.mz/" target="_blank" rel="noopener" aria-label="Instagram de Maicon Zimbrão">
+          <span class="bola"><svg aria-hidden="true"><use href="#i-ig"/></svg></span><span>Instagram</span>
         </a>
-        <a class="rede mz" href="https://www.instagram.com/mz_producoes__/" target="_blank" rel="noopener">
-          <img class="dagua" src="img/logo.png" alt="" width="1000" height="721">
-          <span class="linha1"><span class="ico"><svg><use href="#i-ig"/></svg></span><svg class="ext"><use href="#i-ext"/></svg></span>
-          <span><strong>MZ Produções</strong><small>@mz_producoes__</small></span>
+        <a class="app mz" href="https://www.instagram.com/mz_producoes__/" target="_blank" rel="noopener" aria-label="Instagram da MZ Produções">
+          <span class="bola"><img src="img/logo.png" alt="" width="1000" height="721"></span><span>MZ Prod.</span>
         </a>
-        <a class="rede sp" href="https://open.spotify.com/artist/3nrKWCVEmRI25PtYWvhnrk" target="_blank" rel="noopener">
-          <svg class="dagua" aria-hidden="true"><use href="#i-sp"/></svg>
-          <span class="linha1"><span class="ico"><svg><use href="#i-sp-arcos"/></svg></span><svg class="ext"><use href="#i-ext"/></svg></span>
-          <span><strong>Spotify</strong><small>Ouça o artista</small></span>
+        <a class="app sp" href="https://open.spotify.com/artist/3nrKWCVEmRI25PtYWvhnrk" target="_blank" rel="noopener" aria-label="Maicon Zimbrão no Spotify">
+          <span class="bola"><svg aria-hidden="true"><use href="#i-sp-arcos"/></svg></span><span>Spotify</span>
         </a>
-        <a class="rede yt" href="https://www.youtube.com/@maiconzimbrao04" target="_blank" rel="noopener">
-          <svg class="dagua" aria-hidden="true"><use href="#i-yt"/></svg>
-          <span class="linha1"><span class="ico"><svg><use href="#i-play"/></svg></span><svg class="ext"><use href="#i-ext"/></svg></span>
-          <span><strong>YouTube</strong><small>Canal oficial</small></span>
+        <a class="app yt" href="https://www.youtube.com/@maiconzimbrao04" target="_blank" rel="noopener" aria-label="Canal de Maicon Zimbrão no YouTube">
+          <span class="bola"><svg aria-hidden="true"><use href="#i-play"/></svg></span><span>YouTube</span>
         </a>
-      </div>
+      </nav>
     </section>
 
     <section class="secao revelar" aria-labelledby="t-exp">
       <div class="cabeca"><h2 id="t-exp">Experiências MZ</h2><span>4 formatos</span></div>
-      <div class="ingressos">
-        <a class="ingresso f1" href="https://wa.me/5524988319412?text=Ol%C3%A1%2C%20Maicon!%20Quero%20saber%20mais%20sobre%20a%20Resenha%20MZ." target="_blank" rel="noopener">
-          <span class="papel">
-            <span class="canhoto"><b>MZ</b><small>Nº 01</small></span>
-            <span class="info"><span class="tag">Encontro</span><strong>Resenha MZ</strong><small>Música ao vivo, gente perto e clima de resenha.</small></span>
-            <span class="ir"><span><svg><use href="#i-seta"/></svg></span></span>
-          </span>
+      <div class="lista-exp vidro">
+        <a class="xp a" href="https://wa.me/5524988319412?text=Ol%C3%A1%2C%20Maicon!%20Quero%20saber%20mais%20sobre%20a%20Resenha%20MZ." target="_blank" rel="noopener">
+          <span class="ponto" aria-hidden="true"></span>
+          <span><strong>Resenha MZ</strong><small>Música ao vivo e clima de resenha.</small></span>
+          <span class="vai" aria-hidden="true"><svg><use href="#i-seta"/></svg></span>
         </a>
-        <a class="ingresso f2" href="https://wa.me/5524988319412?text=Ol%C3%A1%2C%20Maicon!%20Quero%20saber%20mais%20sobre%20a%20MiXturinha%20do%20MZ." target="_blank" rel="noopener">
-          <span class="papel">
-            <span class="canhoto"><b>MiX</b><small>Nº 02</small></span>
-            <span class="info"><span class="tag">Set</span><strong>MiXturinha do MZ</strong><small>Vários ritmos num set só, pista cheia do começo ao fim.</small></span>
-            <span class="ir"><span><svg><use href="#i-seta"/></svg></span></span>
-          </span>
+        <a class="xp b" href="https://wa.me/5524988319412?text=Ol%C3%A1%2C%20Maicon!%20Quero%20saber%20mais%20sobre%20a%20MiXturinha%20do%20MZ." target="_blank" rel="noopener">
+          <span class="ponto" aria-hidden="true"></span>
+          <span><strong>MiXturinha do MZ</strong><small>Vários ritmos num set só.</small></span>
+          <span class="vai" aria-hidden="true"><svg><use href="#i-seta"/></svg></span>
         </a>
-        <a class="ingresso f3" href="https://wa.me/5524988319412?text=Ol%C3%A1%2C%20Maicon!%20Quero%20saber%20mais%20sobre%20o%20Fervo%20360%C2%B0." target="_blank" rel="noopener">
-          <span class="papel">
-            <span class="canhoto"><b>360°</b><small>Nº 03</small></span>
-            <span class="info"><span class="tag">Festa</span><strong>Fervo 360°</strong><small>Show, estrutura e energia de ponta a ponta.</small></span>
-            <span class="ir"><span><svg><use href="#i-seta"/></svg></span></span>
-          </span>
+        <a class="xp c" href="https://wa.me/5524988319412?text=Ol%C3%A1%2C%20Maicon!%20Quero%20saber%20mais%20sobre%20o%20Fervo%20360%C2%B0." target="_blank" rel="noopener">
+          <span class="ponto" aria-hidden="true"></span>
+          <span><strong>Fervo 360°</strong><small>A festa completa, de ponta a ponta.</small></span>
+          <span class="vai" aria-hidden="true"><svg><use href="#i-seta"/></svg></span>
         </a>
-        <a class="ingresso f4" href="https://wa.me/5524988319412?text=Ol%C3%A1%2C%20Maicon!%20Quero%20saber%20mais%20sobre%20o%20Running%20e%20Resenha." target="_blank" rel="noopener">
-          <span class="papel">
-            <span class="canhoto"><b>RUN</b><small>Nº 04</small></span>
-            <span class="info"><span class="tag">Corrida</span><strong>Running e Resenha</strong><small>Corrida de manhã e resenha depois, no mesmo rolê.</small></span>
-            <span class="ir"><span><svg><use href="#i-seta"/></svg></span></span>
-          </span>
+        <a class="xp d" href="https://wa.me/5524988319412?text=Ol%C3%A1%2C%20Maicon!%20Quero%20saber%20mais%20sobre%20o%20Running%20e%20Resenha." target="_blank" rel="noopener">
+          <span class="ponto" aria-hidden="true"></span>
+          <span><strong>Running e Resenha</strong><small>Corrida de manhã, resenha depois.</small></span>
+          <span class="vai" aria-hidden="true"><svg><use href="#i-seta"/></svg></span>
         </a>
       </div>
     </section>
