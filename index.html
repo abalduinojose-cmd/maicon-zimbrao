@@ -20,7 +20,7 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800;900&family=Manrope:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,700..900&family=Unbounded:wght@500;700;800;900&family=Manrope:wght@400;500;600;700&display=swap">
 <style>
 /* Layout: palco escuro de show com a capa desfocada como luz ambiente. No celular, uma coluna:
    foto com o nome cinético pousando sobre ela, WhatsApp como herói, lançamento, redes numa barra de ícones e as experiências
@@ -41,6 +41,7 @@
   --violeta:#5a3fd6;
   --verde:#3ddc84;
   --display:"Unbounded","Arial Black","Segoe UI",sans-serif;
+  --titulo:"Archivo","Arial Black","Segoe UI",sans-serif;
   --body:"Manrope","Segoe UI",system-ui,sans-serif;
   --raio:24px;
   --saida:cubic-bezier(.22,1,.36,1);
@@ -104,7 +105,7 @@ a{color:inherit;text-decoration:none}
 .foto-moldura{position:relative;border-radius:30px;overflow:hidden;aspect-ratio:1/1.08;max-width:100%;background:var(--bg-2);
   box-shadow:0 30px 80px -30px rgba(0,0,0,.9),inset 0 0 0 1px rgba(255,255,255,.08)}
 .slides{position:absolute;inset:0;will-change:transform}
-.slide{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:cover;object-position:var(--pos,center 15%);opacity:0;will-change:transform,clip-path}
+.slide{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:cover;object-position:var(--pos,center 15%);opacity:0;will-change:transform,opacity}
 .slide.on{opacity:1}
 .foto-veu{position:absolute;inset:0;background:linear-gradient(180deg,rgba(12,10,17,.12),rgba(12,10,17,0) 28%,rgba(12,10,17,.3) 48%,rgba(12,10,17,.86) 66%,rgba(12,10,17,.98) 80%,var(--bg) 100%)}
 .foto-brilho{position:absolute;left:50%;bottom:-25%;width:130%;height:75%;transform:translateX(-50%);opacity:0;pointer-events:none;
@@ -114,12 +115,13 @@ a{color:inherit;text-decoration:none}
 .foto-chip span{display:inline-flex;align-items:center;gap:6px;padding:8px 11px;border-left:1px solid rgba(255,255,255,.12)}
 .foto-chip span:first-child{border-left:0;background:linear-gradient(135deg,rgba(255,122,61,.35),rgba(255,77,109,.25));color:#ffd2bd}
 .foto-chip svg{width:13px;height:13px}
-.nome{position:absolute;left:18px;right:18px;bottom:18px;margin:0;font-family:var(--display);font-weight:900;font-size:clamp(2.3rem,11vw,3.2rem);line-height:.96;letter-spacing:-.035em;text-transform:uppercase;text-wrap:balance}
+.nome{position:absolute;left:18px;right:18px;bottom:16px;margin:0;font-family:var(--titulo);font-weight:900;font-stretch:120%;font-size:clamp(2.6rem,12.6vw,3.6rem);line-height:.88;letter-spacing:-.025em;text-transform:uppercase;text-wrap:balance;filter:drop-shadow(0 8px 26px rgba(0,0,0,.55))}
 .nome .palavra{display:block;overflow:hidden;padding:.12em 0;margin:-.12em 0}
 .nome .palavra > span{display:inline-block;will-change:transform}
-.nome .palavra:last-child > span{color:var(--laranja)}
-.sub{margin:16px 6px 0;color:var(--fg);font-weight:500;font-size:.95rem;text-shadow:0 1px 12px rgba(0,0,0,.6)}
-.sub b{color:#fff;font-weight:700}
+.nome .palavra:last-child > span{background:linear-gradient(180deg,#ffa06a 0%,#ff7a3d 55%,#ff5a2a 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{margin:16px 6px 0;display:flex;flex-wrap:wrap;align-items:center;row-gap:2px;color:#fff;font-weight:600;font-size:.9rem;letter-spacing:0;text-shadow:0 1px 14px rgba(0,0,0,.75)}
+.sub b{color:var(--laranja);font-weight:800}
+.sub i{font-style:normal;color:var(--laranja);margin:0 .36em;font-size:.7em;opacity:.9}
 .frase{margin:14px 6px 0;font-family:var(--display);font-weight:700;font-size:1.2rem;line-height:1.3;letter-spacing:-.01em;display:flex;flex-wrap:wrap;gap:0 .32em;align-items:baseline}
 .frase .w{display:inline-block;overflow:hidden;padding:.14em 0;margin:-.14em 0}
 .frase .w.rotw{padding-inline:26px;margin-inline:-26px;font-size:1.45rem}
@@ -162,8 +164,9 @@ a{color:inherit;text-decoration:none}
 
 /* ---------- seções ---------- */
 .secao{margin-top:34px;display:flex;flex-direction:column;gap:12px}
-.cabeca{display:flex;align-items:baseline;justify-content:space-between;gap:12px;padding:0 6px}
-.cabeca h2{margin:0;white-space:nowrap;font-family:var(--display);font-weight:800;font-size:.78rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+.cabeca{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:0 6px}
+.cabeca h2{margin:0;white-space:nowrap;display:flex;align-items:center;gap:10px;font-family:var(--titulo);font-weight:800;font-stretch:112%;font-size:1.14rem;letter-spacing:-.01em;color:#fff;text-shadow:0 1px 14px rgba(0,0,0,.6)}
+.cabeca h2::before{content:"";flex:none;width:7px;height:7px;border-radius:50%;background:var(--laranja);box-shadow:0 0 12px rgba(255,122,61,.85)}
 .cabeca a,.cabeca span{font-size:.8rem;font-weight:600;color:var(--laranja)}
 .cabeca span{color:var(--dim)}
 
@@ -370,7 +373,7 @@ a{color:inherit;text-decoration:none}
     <section class="hero" aria-label="Maicon Zimbrão">
       <div class="foto-moldura" id="foto">
         <div class="slides" id="slides">
-          <img class="slide on" src="img/foto-oculos.jpg" alt="Maicon Zimbrão de óculos escuros e camiseta preta" width="1100" height="1640" style="--pos:center 0%">
+          <img class="slide on" src="img/foto-oculos.jpg" alt="Maicon Zimbrão de óculos escuros e camiseta preta" width="1100" height="1640" style="--pos:center 34%">
           <img class="slide" src="img/foto-sanfona.jpg" alt="Maicon Zimbrão sorrindo com a sanfona" width="900" height="925" style="--pos:center 10%">
         </div>
         <div class="foto-veu"></div>
@@ -378,7 +381,7 @@ a{color:inherit;text-decoration:none}
         <span class="foto-chip" id="chip"><span><svg><use href="#i-mic"/></svg>Cantor</span><span>Shows</span><span>Eventos</span></span>
         <h1 class="nome" id="nome"><span class="palavra"><span>Maicon</span></span><span class="palavra"><span>Zimbrão</span></span></h1>
       </div>
-      <p class="sub" id="sub"><b>MZ Produções</b> · Eventos · Shows · Experiências</p>
+      <p class="sub" id="sub"><b>MZ Produções</b><i aria-hidden="true">•</i>Eventos<i aria-hidden="true">•</i>Shows<i aria-hidden="true">•</i>Experiências</p>
       <p class="frase" id="frase">
         <span class="w"><span>Levando</span></span>
         <span class="w"><span>até</span></span>
@@ -726,7 +729,7 @@ a{color:inherit;text-decoration:none}
     document.addEventListener('visibilitychange', function(){ if (document.hidden) vid.pause(); else toca(); });
   })();
 
-  /* fotos do destaque: trocam a cada 8 s; a nova sobe como cortina por cima da anterior,
+  /* fotos do destaque: trocam a cada 8 s; a nova surge por cima da anterior num dissolve lento,
      e cada foto faz um push lento de câmera enquanto está em cena */
   (function(){
     var slides = Array.prototype.slice.call(document.querySelectorAll('#slides .slide')); if (slides.length < 2) return;
@@ -740,7 +743,7 @@ a{color:inherit;text-decoration:none}
       entra.getAnimations().forEach(function(a){ a.cancel(); });
       sai.style.zIndex = 1; entra.style.zIndex = 2; entra.classList.add('on');
       push(entra);
-      var c = anima(entra, [{clipPath:'inset(100% 0 0 0)'},{clipPath:'inset(0% 0 0 0)'}], {duration:1100, easing:SAIDA});
+      var c = anima(entra, [{opacity:0},{opacity:1}], {duration:1800, easing:'cubic-bezier(.37,0,.63,1)'});
       c.onfinish = function(){ if (slides[atualS] !== sai) sai.classList.remove('on'); };
     }, 8000);
   })();
@@ -783,7 +786,7 @@ a{color:inherit;text-decoration:none}
     setTimeout(liga, reduz ? 1800 : 3400);
   }
   var pronto = false; function vai(){ if (pronto) return; pronto = true; comeca(); }
-  if (document.fonts && document.fonts.load) Promise.all([document.fonts.load('900 1em Unbounded'), document.fonts.load('700 1em Unbounded'), document.fonts.load('600 1em Manrope')]).then(vai, vai);
+  if (document.fonts && document.fonts.load) Promise.all([document.fonts.load('900 1em Archivo'), document.fonts.load('900 1em Unbounded'), document.fonts.load('700 1em Unbounded'), document.fonts.load('600 1em Manrope')]).then(vai, vai);
   setTimeout(vai, 1400);
 })();
 </script>
