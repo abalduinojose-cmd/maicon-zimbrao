@@ -200,24 +200,41 @@ a{color:inherit;text-decoration:none}
 .app.sp{--marca:#1ed760;--sobre:#000;--brilho:rgba(30,215,96,.7)}
 .app.yt{--marca:#ff0033;--sobre:#fff;--brilho:rgba(255,0,51,.7)}
 
-/* experiências: lista limpa num só cartão; a cor de cada formato vira apenas um ponto */
-.lista-exp{display:flex;flex-direction:column;padding:6px;border-radius:24px}
-.xp{position:relative;display:grid;grid-template-columns:12px minmax(0,1fr) auto;align-items:center;gap:14px;padding:15px 12px 15px 14px;border-radius:18px;transition:background .3s var(--macio)}
-.xp + .xp::before{content:"";position:absolute;left:40px;right:14px;top:0;height:1px;background:rgba(255,255,255,.08);transition:opacity .3s}
+/* experiências: lista limpa num só cartão; cada formato tem uma miniatura do próprio show,
+   tingida na sua cor, e a cor aparece também no rótulo e na seta */
+.lista-exp{display:flex;flex-direction:column;padding:6px;border-radius:26px}
+.xp{position:relative;display:grid;grid-template-columns:60px minmax(0,1fr) auto;align-items:center;gap:14px;padding:10px 12px 10px 10px;border-radius:20px;transition:background .3s var(--macio)}
+.xp + .xp::before{content:"";position:absolute;left:84px;right:14px;top:0;height:1px;background:rgba(255,255,255,.08);transition:opacity .3s}
 .xp:hover{background:rgba(255,255,255,.06)}
 .xp:hover::before,.xp:hover + .xp::before{opacity:0}
-.xp .ponto{width:10px;height:10px;border-radius:50%;background:var(--c);box-shadow:0 0 0 4px var(--h),0 0 14px var(--c)}
-.xp strong{display:block;font-family:var(--display);font-weight:700;font-size:.9rem;letter-spacing:-.015em;line-height:1.2}
-.xp small{display:block;margin-top:3px;color:var(--muted);font-size:.78rem;line-height:1.4}
+.xp:active{background:rgba(255,255,255,.09)}
+.miniatura{position:relative;width:60px;height:60px;border-radius:17px;overflow:hidden;isolation:isolate;box-shadow:0 10px 24px -12px var(--c),inset 0 0 0 1px rgba(255,255,255,.14)}
+.miniatura img{display:block;width:100%;height:100%;object-fit:cover;transform:scale(1.02);transition:transform .7s var(--saida)}
+.miniatura::after{content:"";position:absolute;inset:0;background:linear-gradient(160deg,transparent 35%,var(--c));opacity:.55;mix-blend-mode:soft-light}
+.miniatura::before{content:"";position:absolute;inset:0;z-index:1;border-radius:inherit;box-shadow:inset 0 0 0 1px rgba(255,255,255,.14)}
+.xp:hover .miniatura img{transform:scale(1.1)}
+.xp .rotulo-x{display:block;font-size:.58rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--c)}
+.xp strong{display:block;margin-top:3px;font-family:var(--display);font-weight:700;font-size:.92rem;letter-spacing:-.015em;line-height:1.2}
+.xp small{display:block;margin-top:3px;color:var(--muted);font-size:.76rem;line-height:1.4}
 .xp .vai{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;color:var(--muted);border:1px solid rgba(255,255,255,.13);
   transition:transform .45s var(--saida),color .3s,border-color .3s,box-shadow .3s}
 .xp .vai svg{width:15px;height:15px}
 .xp:hover .vai,.xp:focus-visible .vai{background:var(--c);border-color:transparent;color:#120f18;transform:translateX(2px);box-shadow:0 10px 22px -10px var(--c)}
-.xp:active{background:rgba(255,255,255,.08)}
-.xp.a{--c:#ff7a3d;--h:rgba(255,122,61,.18)}
-.xp.b{--c:#8f72ff;--h:rgba(143,114,255,.2)}
-.xp.c{--c:#3ddc84;--h:rgba(61,220,132,.18)}
-.xp.d{--c:#ffc43d;--h:rgba(255,196,61,.18)}
+.xp.a{--c:#ff7a3d}
+.xp.b{--c:#9a7dff}
+.xp.c{--c:#3ddc84}
+.xp.d{--c:#ffc43d}
+.monte{display:flex;align-items:center;justify-content:center;gap:8px;margin:4px 4px 2px;padding:13px 14px;border-radius:18px;border:1px dashed rgba(255,255,255,.18);
+  font-size:.8rem;font-weight:600;color:var(--muted);transition:color .3s,border-color .3s,background .3s}
+.monte b{color:var(--fg);font-weight:700}
+.monte svg{width:15px;height:15px;transition:transform .45s var(--saida)}
+.monte:hover{color:var(--fg);border-color:rgba(255,255,255,.35);background:rgba(255,255,255,.04)}
+.monte:hover svg{transform:translateX(3px)}
+/* as linhas entram uma depois da outra conforme a pessoa rola */
+@supports (animation-timeline: view()){
+  .lista-exp .xp,.lista-exp .monte{animation:revelar var(--saida) both;animation-timeline:view();animation-range:entry 0% entry 120px}
+}
+@media (prefers-reduced-motion: reduce){ @supports (animation-timeline: view()){ .lista-exp .xp,.lista-exp .monte{animation:none} } }
 
 /* rodapé */
 .rodape{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:4px;align-items:center;text-align:center;color:var(--muted);font-size:.8rem}
@@ -408,24 +425,27 @@ a{color:inherit;text-decoration:none}
       <div class="cabeca"><h2 id="t-exp">Experiências MZ</h2><span>4 formatos</span></div>
       <div class="lista-exp vidro">
         <a class="xp a" href="https://wa.me/5524988319412?text=Ol%C3%A1%2C%20Maicon!%20Quero%20saber%20mais%20sobre%20a%20Resenha%20MZ." target="_blank" rel="noopener">
-          <span class="ponto" aria-hidden="true"></span>
-          <span><strong>Resenha MZ</strong><small>Música ao vivo e clima de resenha.</small></span>
+          <span class="miniatura"><img src="img/exp-resenha.jpg" alt="" width="200" height="200" loading="lazy"></span>
+          <span><span class="rotulo-x">Encontro</span><strong>Resenha MZ</strong><small>Música ao vivo e clima de resenha.</small></span>
           <span class="vai" aria-hidden="true"><svg><use href="#i-seta"/></svg></span>
         </a>
         <a class="xp b" href="https://wa.me/5524988319412?text=Ol%C3%A1%2C%20Maicon!%20Quero%20saber%20mais%20sobre%20a%20MiXturinha%20do%20MZ." target="_blank" rel="noopener">
-          <span class="ponto" aria-hidden="true"></span>
-          <span><strong>MiXturinha do MZ</strong><small>Vários ritmos num set só.</small></span>
+          <span class="miniatura"><img src="img/exp-mix.jpg" alt="" width="200" height="200" loading="lazy"></span>
+          <span><span class="rotulo-x">Set</span><strong>MiXturinha do MZ</strong><small>Vários ritmos num set só.</small></span>
           <span class="vai" aria-hidden="true"><svg><use href="#i-seta"/></svg></span>
         </a>
         <a class="xp c" href="https://wa.me/5524988319412?text=Ol%C3%A1%2C%20Maicon!%20Quero%20saber%20mais%20sobre%20o%20Fervo%20360%C2%B0." target="_blank" rel="noopener">
-          <span class="ponto" aria-hidden="true"></span>
-          <span><strong>Fervo 360°</strong><small>A festa completa, de ponta a ponta.</small></span>
+          <span class="miniatura"><img src="img/exp-fervo.jpg" alt="" width="200" height="200" loading="lazy"></span>
+          <span><span class="rotulo-x">Festa</span><strong>Fervo 360°</strong><small>A festa completa, de ponta a ponta.</small></span>
           <span class="vai" aria-hidden="true"><svg><use href="#i-seta"/></svg></span>
         </a>
         <a class="xp d" href="https://wa.me/5524988319412?text=Ol%C3%A1%2C%20Maicon!%20Quero%20saber%20mais%20sobre%20o%20Running%20e%20Resenha." target="_blank" rel="noopener">
-          <span class="ponto" aria-hidden="true"></span>
-          <span><strong>Running e Resenha</strong><small>Corrida de manhã, resenha depois.</small></span>
+          <span class="miniatura"><img src="img/exp-running.jpg" alt="" width="200" height="200" loading="lazy"></span>
+          <span><span class="rotulo-x">Corrida</span><strong>Running e Resenha</strong><small>Corrida de manhã, resenha depois.</small></span>
           <span class="vai" aria-hidden="true"><svg><use href="#i-seta"/></svg></span>
+        </a>
+        <a class="monte" href="https://wa.me/5524988319412?text=Ol%C3%A1%2C%20Maicon!%20Quero%20montar%20um%20evento%20do%20meu%20jeito." target="_blank" rel="noopener">
+          Outro formato? <b>Monte o seu evento</b><svg aria-hidden="true"><use href="#i-seta"/></svg>
         </a>
       </div>
     </section>
