@@ -116,9 +116,9 @@ a{color:inherit;text-decoration:none}
 .foto-chip span:first-child{border-left:0;background:linear-gradient(135deg,rgba(255,122,61,.35),rgba(255,77,109,.25));color:#ffd2bd}
 .foto-chip svg{width:13px;height:13px}
 .nome{position:absolute;left:18px;right:18px;bottom:16px;margin:0;font-family:var(--titulo);font-weight:900;font-stretch:120%;font-size:clamp(2.6rem,12.6vw,3.6rem);line-height:.88;letter-spacing:-.025em;text-transform:uppercase;text-wrap:balance;filter:drop-shadow(0 8px 26px rgba(0,0,0,.55))}
-.nome .palavra{display:block;overflow:hidden;padding:.12em 0;margin:-.12em 0}
+.nome .palavra{display:block;overflow:hidden;padding:.32em 0 .12em;margin:-.32em 0 -.12em}
 .nome .palavra > span{display:inline-block;will-change:transform}
-.nome .palavra:last-child > span{background:linear-gradient(180deg,#ffa06a 0%,#ff7a3d 55%,#ff5a2a 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.nome .palavra:last-child > span{padding-top:.3em;margin-top:-.3em;background:linear-gradient(180deg,#ffb27f 0%,#ffa06a 24%,#ff7a3d 62%,#ff5a2a 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
 .sub{margin:16px 6px 0;display:flex;flex-wrap:wrap;align-items:center;row-gap:2px;color:#fff;font-weight:600;font-size:.9rem;letter-spacing:0;text-shadow:0 1px 14px rgba(0,0,0,.75)}
 .sub b{color:var(--laranja);font-weight:800}
 .sub i{font-style:normal;color:var(--laranja);margin:0 .36em;font-size:.7em;opacity:.9}
@@ -217,8 +217,8 @@ a{color:inherit;text-decoration:none}
 ::view-transition-group(clipe-a),::view-transition-group(clipe-b),::view-transition-group(clipe-c){animation-duration:.6s;animation-timing-function:cubic-bezier(.22,1,.36,1)}
 .clipe:not(.ativo) .som,.clipe:not(.ativo) .tela,.clipe:not(.ativo) .barra{display:none}
 .clipe:not(.ativo) figcaption{left:12px;right:10px;bottom:12px}
-.clipe:not(.ativo) .selo-v{font-size:.56rem;padding:4px 9px 4px 7px;gap:5px}
-.clipe:not(.ativo) strong{font-size:.78rem}
+.clipe:not(.ativo) .selo-v{font-size:.56rem;letter-spacing:.16em}
+.clipe:not(.ativo) strong{margin-top:4px;font-size:.8rem;line-height:1.25}
 .clipe:not(.ativo)::before{content:"";position:absolute;left:50%;top:42%;width:44px;height:44px;margin:-22px 0 0 -22px;border-radius:50%;z-index:2;
   background:rgba(12,10,17,.45) url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='white' d='M9 6.5v11l9-5.5z'/></svg>") center/18px no-repeat;
   border:1px solid rgba(255,255,255,.3);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);transition:background-color .3s,transform .35s var(--saida)}
@@ -228,11 +228,9 @@ a{color:inherit;text-decoration:none}
 .clipe::after{content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;
   background:linear-gradient(180deg,rgba(12,10,17,.3),transparent 26%,transparent 55%,rgba(12,10,17,.88));box-shadow:inset 0 0 0 1px rgba(255,255,255,.12)}
 .clipe figcaption{position:absolute;left:14px;right:14px;bottom:18px;z-index:1}
-/* selo dos vídeos: pílula de vidro leve, com um ponto laranja */
-.selo-v{display:inline-flex;align-items:center;gap:6px;padding:5px 11px 5px 9px;border-radius:999px;font-family:var(--body);font-size:.66rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:#fff;
-  background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.24);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
-.selo-v::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--laranja);box-shadow:0 0 8px rgba(255,122,61,.9)}
-.clipe strong{display:block;margin-top:8px;font-family:var(--display);font-weight:700;font-size:.95rem;letter-spacing:-.015em;line-height:1.2}
+/* selo dos vídeos: só um rótulo pequeno e discreto, sem fundo */
+.selo-v{display:block;font-family:var(--body);font-size:.62rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.72)}
+.clipe strong{display:block;margin-top:5px;font-family:var(--body);font-weight:700;font-size:1rem;letter-spacing:-.01em;line-height:1.22;text-wrap:balance}
 .som{position:absolute;right:10px;top:10px;z-index:2;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;padding:0;cursor:pointer;color:#fff;
   border:1px solid rgba(255,255,255,.22);background:rgba(12,10,17,.45);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);transition:background .3s,color .3s,border-color .3s,transform .35s var(--saida)}
 .som svg{width:17px;height:17px}
@@ -307,29 +305,32 @@ a{color:inherit;text-decoration:none}
 
 /* ---------- desktop ---------- */
 @media (min-width:980px){
-  .pagina{max-width:1160px;grid-template-columns:minmax(380px,500px) minmax(0,560px);justify-content:center;column-gap:64px;padding-block:28px 64px}
-  .coluna.esq{position:sticky;top:28px;height:calc(100vh - 56px);min-height:700px}
-  .coluna.dir{padding-top:46px}
+  .pagina{max-width:1180px;grid-template-columns:minmax(400px,520px) minmax(0,580px);justify-content:center;column-gap:72px;padding-block:28px}
+  .coluna.esq{position:sticky;top:28px;height:calc(100vh - 56px);min-height:560px;max-height:980px}
   .coluna.esq .hero{flex:1 1 auto;min-height:0}
-  .foto-moldura{aspect-ratio:auto;flex:1 1 auto;min-height:250px;max-height:600px}
-  .frase{margin-top:10px;font-size:1.1rem}
-  .frase .w.rotw{font-size:1.3rem}
-  .nome{font-size:clamp(2.8rem,4.4vw,4rem)}
-  .acoes{grid-template-columns:1fr;margin-top:18px}
+  .foto-moldura{aspect-ratio:auto;flex:1 1 auto;min-height:0;border-radius:34px}
+  .nome{left:26px;right:26px;bottom:24px;font-size:clamp(3rem,4.3vw,4.2rem)}
+  .foto-chip{left:18px;top:18px}
+  .coluna.dir{padding-top:66px}
+  .intro{padding:4px 0 6px}
+  .sub{margin:0 2px;font-size:.92rem}
+  .frase{margin:14px 2px 0;font-size:1.65rem;line-height:1.2}
+  .frase .w.rotw{font-size:1.9rem}
+  .acoes{gap:10px;margin-top:24px}
   .cta{min-height:64px}
-  .secao:first-child{margin-top:0}
+  .secao{margin-top:40px}
+  .rodape{padding-bottom:64px}
 }
 @media (min-width:980px){
   .palco-video{filter:saturate(1.15) blur(3px);transform:scale(1.05)}
   .palco-tela{background:linear-gradient(90deg,rgba(12,10,17,.5),rgba(12,10,17,.66))}
 }
 @media (min-width:980px) and (max-height:780px){
-  .coluna.esq{min-height:0}
-  .sub{display:none}
-  .cta{min-height:60px}
+  .coluna.dir{padding-top:40px}
+  .frase{font-size:1.45rem}
+  .frase .w.rotw{font-size:1.65rem}
 }
 </style>
-
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -402,42 +403,45 @@ a{color:inherit;text-decoration:none}
         <span class="foto-chip" id="chip"><span><svg><use href="#i-mic"/></svg>Cantor</span><span>Shows</span><span>Eventos</span></span>
         <h1 class="nome" id="nome"><span class="palavra"><span>Maicon</span></span><span class="palavra"><span>Zimbrão</span></span></h1>
       </div>
-      <p class="sub" id="sub"><b>MZ Produções</b><i aria-hidden="true">•</i>Eventos<i aria-hidden="true">•</i>Shows<i aria-hidden="true">•</i>Experiências</p>
-      <p class="frase" id="frase">
-        <span class="w"><span>Levando</span></span>
-        <span class="w"><span>até</span></span>
-        <span class="w"><span>você</span></span>
-        <span class="quebra" aria-hidden="true"></span>
-        <span class="w rotw"><span class="rot" id="rot"><span class="on">a resenha.</span><span>o fervo.</span><span>a mixturinha.</span><span>o show.</span></span></span>
-      </p>
-      <div class="acoes">
-        <div class="cta-wrap" id="ctaWrap">
-          <a class="cta wa" href="https://wa.me/5524988319412?text=Ol%C3%A1%2C%20Maicon!%20Quero%20um%20or%C3%A7amento%20para%20um%20evento." target="_blank" rel="noopener">
-            <span class="ico"><svg><use href="#i-wa"/></svg></span>
-            <span class="txt"><strong>Chamar no WhatsApp</strong><small>Orçamento para shows e eventos</small></span>
-            <svg class="seta"><use href="#i-seta"/></svg>
-            <span class="varredura" id="varredura"></span>
-          </a>
-        </div>
-        <div class="cta-wrap" id="ctaWrap2">
-          <a class="cta sp" href="https://open.spotify.com/track/0lVuyLQMQOv1LC6AII9Od4" target="_blank" rel="noopener">
-            <span class="ico"><svg><use href="#i-sp-arcos"/></svg></span>
-            <span class="txt"><strong>Ouvir no Spotify</strong><small>Novo single “Pronto pra Errar”</small></span>
-            <svg class="seta"><use href="#i-seta"/></svg>
-          </a>
-        </div>
-        <div class="cta-wrap" id="ctaWrap3">
-          <a class="cta yt" href="https://www.youtube.com/@maiconzimbrao04" target="_blank" rel="noopener">
-            <span class="ico"><svg><use href="#i-play"/></svg></span>
-            <span class="txt"><strong>Assistir no YouTube</strong><small>Clipes, shows e bastidores</small></span>
-            <svg class="seta"><use href="#i-seta"/></svg>
-          </a>
-        </div>
-      </div>
     </section>
   </div>
 
   <div class="coluna dir">
+    <div class="intro">
+        <p class="sub" id="sub"><b>MZ Produções</b><i aria-hidden="true">•</i>Eventos<i aria-hidden="true">•</i>Shows<i aria-hidden="true">•</i>Experiências</p>
+        <p class="frase" id="frase">
+          <span class="w"><span>Levando</span></span>
+          <span class="w"><span>até</span></span>
+          <span class="w"><span>você</span></span>
+          <span class="quebra" aria-hidden="true"></span>
+          <span class="w rotw"><span class="rot" id="rot"><span class="on">a resenha.</span><span>o fervo.</span><span>a mixturinha.</span><span>o show.</span></span></span>
+        </p>
+        <div class="acoes">
+          <div class="cta-wrap" id="ctaWrap">
+            <a class="cta wa" href="https://wa.me/5524988319412?text=Ol%C3%A1%2C%20Maicon!%20Quero%20um%20or%C3%A7amento%20para%20um%20evento." target="_blank" rel="noopener">
+              <span class="ico"><svg><use href="#i-wa"/></svg></span>
+              <span class="txt"><strong>Chamar no WhatsApp</strong><small>Orçamento para shows e eventos</small></span>
+              <svg class="seta"><use href="#i-seta"/></svg>
+              <span class="varredura" id="varredura"></span>
+            </a>
+          </div>
+          <div class="cta-wrap" id="ctaWrap2">
+            <a class="cta sp" href="https://open.spotify.com/track/0lVuyLQMQOv1LC6AII9Od4" target="_blank" rel="noopener">
+              <span class="ico"><svg><use href="#i-sp-arcos"/></svg></span>
+              <span class="txt"><strong>Ouvir no Spotify</strong><small>Novo single “Pronto pra Errar”</small></span>
+              <svg class="seta"><use href="#i-seta"/></svg>
+            </a>
+          </div>
+          <div class="cta-wrap" id="ctaWrap3">
+            <a class="cta yt" href="https://www.youtube.com/@maiconzimbrao04" target="_blank" rel="noopener">
+              <span class="ico"><svg><use href="#i-play"/></svg></span>
+              <span class="txt"><strong>Assistir no YouTube</strong><small>Clipes, shows e bastidores</small></span>
+              <svg class="seta"><use href="#i-seta"/></svg>
+            </a>
+          </div>
+        </div>
+    </div>
+
     <section class="secao revelar" aria-labelledby="t-lanc">
       <div class="cabeca"><h2 id="t-lanc">Lançamento</h2><a href="https://open.spotify.com/artist/3nrKWCVEmRI25PtYWvhnrk" target="_blank" rel="noopener">Ver discografia</a></div>
       <article class="lanc vidro">
