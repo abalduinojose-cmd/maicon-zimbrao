@@ -217,7 +217,7 @@ a{color:inherit;text-decoration:none}
 ::view-transition-group(clipe-a),::view-transition-group(clipe-b),::view-transition-group(clipe-c){animation-duration:.6s;animation-timing-function:cubic-bezier(.22,1,.36,1)}
 .clipe:not(.ativo) .som,.clipe:not(.ativo) .tela,.clipe:not(.ativo) .barra{display:none}
 .clipe:not(.ativo) figcaption{left:12px;right:10px;bottom:12px}
-.clipe:not(.ativo) .tag{font-size:.56rem}
+.clipe:not(.ativo) .selo-v{font-size:.56rem;padding:4px 9px 4px 7px;gap:5px}
 .clipe:not(.ativo) strong{font-size:.78rem}
 .clipe:not(.ativo)::before{content:"";position:absolute;left:50%;top:42%;width:44px;height:44px;margin:-22px 0 0 -22px;border-radius:50%;z-index:2;
   background:rgba(12,10,17,.45) url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='white' d='M9 6.5v11l9-5.5z'/></svg>") center/18px no-repeat;
@@ -228,8 +228,11 @@ a{color:inherit;text-decoration:none}
 .clipe::after{content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;
   background:linear-gradient(180deg,rgba(12,10,17,.3),transparent 26%,transparent 55%,rgba(12,10,17,.88));box-shadow:inset 0 0 0 1px rgba(255,255,255,.12)}
 .clipe figcaption{position:absolute;left:14px;right:14px;bottom:18px;z-index:1}
-.clipe .tag{font-size:.62rem}
-.clipe strong{display:block;margin-top:3px;font-family:var(--display);font-weight:700;font-size:.95rem;letter-spacing:-.015em;line-height:1.2}
+/* selo dos vídeos: pílula de vidro leve, com um ponto laranja */
+.selo-v{display:inline-flex;align-items:center;gap:6px;padding:5px 11px 5px 9px;border-radius:999px;font-family:var(--body);font-size:.66rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:#fff;
+  background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.24);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.selo-v::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--laranja);box-shadow:0 0 8px rgba(255,122,61,.9)}
+.clipe strong{display:block;margin-top:8px;font-family:var(--display);font-weight:700;font-size:.95rem;letter-spacing:-.015em;line-height:1.2}
 .som{position:absolute;right:10px;top:10px;z-index:2;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;padding:0;cursor:pointer;color:#fff;
   border:1px solid rgba(255,255,255,.22);background:rgba(12,10,17,.45);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);transition:background .3s,color .3s,border-color .3s,transform .35s var(--saida)}
 .som svg{width:17px;height:17px}
@@ -479,21 +482,21 @@ a{color:inherit;text-decoration:none}
           <video muted loop playsinline preload="metadata" poster="img/video-1-capa.jpg" aria-label="Maicon Zimbrão animando uma festa particular"><source src="img/video-1.mp4" type="video/mp4"></video>
           <button class="som" type="button" aria-pressed="false" aria-label="Ativar som"><svg aria-hidden="true"><use href="#i-mudo"/></svg></button>
           <button class="tela" type="button" aria-label="Ver em tela cheia"><svg aria-hidden="true"><use href="#i-tela"/></svg></button>
-          <figcaption><span class="tag">Eventos</span><strong>Festa particular</strong></figcaption>
+          <figcaption><span class="selo-v">Eventos</span><strong>Festas particulares</strong></figcaption>
           <span class="barra" aria-hidden="true"><i></i></span>
         </figure>
         <figure class="clipe ativo" data-pos="meio">
-          <video muted loop playsinline preload="metadata" poster="img/video-2-capa.jpg" aria-label="Maicon Zimbrão ao vivo no palco, com a praça lotada"><source src="img/video-2.mp4" type="video/mp4"></video>
+          <video muted loop playsinline preload="metadata" poster="img/video-2-capa.jpg" aria-label="Maicon Zimbrão em show de grande evento, com a praça lotada"><source src="img/video-2.mp4" type="video/mp4"></video>
           <button class="som" type="button" aria-pressed="false" aria-label="Ativar som"><svg aria-hidden="true"><use href="#i-mudo"/></svg></button>
           <button class="tela" type="button" aria-label="Ver em tela cheia"><svg aria-hidden="true"><use href="#i-tela"/></svg></button>
-          <figcaption><span class="tag">Show</span><strong>Ao vivo na praça</strong></figcaption>
+          <figcaption><span class="selo-v">Show</span><strong>Grandes eventos</strong></figcaption>
           <span class="barra" aria-hidden="true"><i></i></span>
         </figure>
         <figure class="clipe" data-pos="baixo">
-          <video muted loop playsinline preload="metadata" poster="img/video-3-capa.jpg" aria-label="Maicon Zimbrão cantando numa boate cheia"><source src="img/video-3.mp4" type="video/mp4"></video>
+          <video muted loop playsinline preload="metadata" poster="img/video-3-capa.jpg" aria-label="Maicon Zimbrão cantando numa casa de shows cheia"><source src="img/video-3.mp4" type="video/mp4"></video>
           <button class="som" type="button" aria-pressed="false" aria-label="Ativar som"><svg aria-hidden="true"><use href="#i-mudo"/></svg></button>
           <button class="tela" type="button" aria-label="Ver em tela cheia"><svg aria-hidden="true"><use href="#i-tela"/></svg></button>
-          <figcaption><span class="tag">Boates</span><strong>Noite na boate</strong></figcaption>
+          <figcaption><span class="selo-v">Boates</span><strong>Casa de shows e boates</strong></figcaption>
           <span class="barra" aria-hidden="true"><i></i></span>
         </figure>
       </div>
