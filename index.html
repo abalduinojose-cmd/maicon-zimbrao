@@ -242,6 +242,42 @@ a{color:inherit;text-decoration:none}
 .barra{position:absolute;left:12px;right:12px;bottom:8px;z-index:1;height:2px;border-radius:2px;background:rgba(255,255,255,.18);overflow:hidden}
 .barra i{display:block;height:100%;background:var(--laranja);transform-origin:left;transform:scaleX(0)}
 
+/* tela cheia própria: um vídeo por vez, como nos stories; setas, deslizar para os lados e avanço automático */
+.cine{position:fixed;inset:0;z-index:100;display:grid;place-items:center;background:#050407;overflow:hidden;overscroll-behavior:contain;touch-action:none}
+.cine[hidden]{display:none}
+.cine-fundo{position:absolute;inset:-60px;background:#050407 center/cover no-repeat;filter:blur(38px) saturate(1.25) brightness(.38);transform:scale(1.08)}
+.cine-palco{position:relative;width:100%;height:100%;max-width:calc(100vh * 9 / 16);max-width:calc(100dvh * 9 / 16)}
+.cine-quadro{position:absolute;inset:0;overflow:hidden;background:#000}
+.cine-quadro video{width:100%;height:100%;object-fit:cover;display:block}
+.cine-veu{position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(5,4,7,.62),rgba(5,4,7,0) 20%,rgba(5,4,7,0) 66%,rgba(5,4,7,.85))}
+.cine-topo{position:absolute;left:0;right:0;top:0;z-index:2;padding:calc(env(safe-area-inset-top,0px) + 12px) 14px 0}
+.cine-segs{display:grid;grid-template-columns:repeat(3,1fr);gap:5px}
+.cine-segs i{height:3px;border-radius:3px;background:rgba(255,255,255,.28);overflow:hidden}
+.cine-segs b{display:block;height:100%;background:#fff;transform-origin:left;transform:scaleX(0)}
+.cine-barra{display:flex;align-items:center;gap:8px;margin-top:12px}
+.cine-marca{margin-right:auto;height:38px;width:auto;filter:drop-shadow(0 4px 12px rgba(0,0,0,.5))}
+.cine-bt{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;padding:0;cursor:pointer;color:#fff;border:1px solid rgba(255,255,255,.22);background:rgba(12,10,17,.45);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
+.cine-bt svg{width:18px;height:18px}
+.cine-bt[aria-pressed="true"]{background:var(--laranja);color:#1a0d08;border-color:transparent}
+.cine-seta{position:absolute;top:50%;z-index:2;width:50px;height:50px;margin-top:-25px;border-radius:50%;display:grid;place-items:center;padding:0;cursor:pointer;color:#fff;
+  border:1px solid rgba(255,255,255,.25);background:rgba(12,10,17,.42);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);transition:background .3s,transform .35s var(--saida)}
+.cine-seta svg{width:20px;height:20px}
+.cine-seta.ant{left:10px}.cine-seta.ant svg{transform:rotate(180deg)}
+.cine-seta.prox{right:10px}
+.cine-seta:hover{background:rgba(255,255,255,.2)}
+.cine-seta:active{transform:scale(.93)}
+.cine-legenda{position:absolute;left:18px;right:80px;bottom:calc(env(safe-area-inset-bottom,0px) + 28px);z-index:2;pointer-events:none}
+.cine-legenda .selo-v{font-size:.7rem}
+.cine-legenda strong{display:block;margin-top:6px;font-weight:700;font-size:1.3rem;letter-spacing:-.01em;line-height:1.2;text-wrap:balance}
+.cine-conta{position:absolute;right:18px;bottom:calc(env(safe-area-inset-bottom,0px) + 30px);z-index:2;font-size:.78rem;font-weight:700;letter-spacing:.1em;color:rgba(255,255,255,.75);pointer-events:none}
+@media (min-width:700px){
+  .cine-palco{height:calc(100% - 56px);max-width:calc((100vh - 56px) * 9 / 16);max-width:calc((100dvh - 56px) * 9 / 16)}
+  .cine-quadro,.cine-veu{border-radius:26px}
+  .cine-quadro{box-shadow:0 40px 120px -20px rgba(0,0,0,.8),0 0 0 1px rgba(255,255,255,.1)}
+  .cine-seta{width:58px;height:58px;margin-top:-29px}
+  .cine-seta.ant{left:-86px}.cine-seta.prox{right:-86px}
+}
+
 /* experiências: lista limpa num só cartão; cada formato tem um ícone próprio na sua cor,
    que se acende no toque; a cor aparece também no rótulo e na seta */
 .lista-exp{display:flex;flex-direction:column;padding:6px;border-radius:26px}
@@ -351,6 +387,7 @@ a{color:inherit;text-decoration:none}
     <circle cx="12" cy="12" r="3.8"/>
     <circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none"/>
   </symbol>
+  <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></symbol>
   <symbol id="i-seta" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
   <symbol id="i-ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></symbol>
   <symbol id="i-sp-arcos" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round">
@@ -482,21 +519,21 @@ a{color:inherit;text-decoration:none}
     <section class="secao revelar" aria-labelledby="t-videos">
       <div class="cabeca"><h2 id="t-videos">Vídeos</h2><a href="https://www.instagram.com/maicon_zimbrao.mz/" target="_blank" rel="noopener">Ver no Instagram</a></div>
       <div class="grade-v" id="palcoV">
-        <figure class="clipe" data-pos="cima">
+        <figure class="clipe" data-pos="cima" data-i="1">
           <video muted loop playsinline preload="metadata" poster="img/video-1-capa.jpg" aria-label="Maicon Zimbrão animando uma festa particular"><source src="img/video-1.mp4" type="video/mp4"></video>
           <button class="som" type="button" aria-pressed="false" aria-label="Ativar som"><svg aria-hidden="true"><use href="#i-mudo"/></svg></button>
           <button class="tela" type="button" aria-label="Ver em tela cheia"><svg aria-hidden="true"><use href="#i-tela"/></svg></button>
           <figcaption><span class="selo-v">Eventos</span><strong>Festas particulares</strong></figcaption>
           <span class="barra" aria-hidden="true"><i></i></span>
         </figure>
-        <figure class="clipe ativo" data-pos="meio">
+        <figure class="clipe ativo" data-pos="meio" data-i="0">
           <video muted loop playsinline preload="metadata" poster="img/video-2-capa.jpg" aria-label="Maicon Zimbrão em show de grande evento, com a praça lotada"><source src="img/video-2.mp4" type="video/mp4"></video>
           <button class="som" type="button" aria-pressed="false" aria-label="Ativar som"><svg aria-hidden="true"><use href="#i-mudo"/></svg></button>
           <button class="tela" type="button" aria-label="Ver em tela cheia"><svg aria-hidden="true"><use href="#i-tela"/></svg></button>
           <figcaption><span class="selo-v">Shows</span><strong>Grandes eventos</strong></figcaption>
           <span class="barra" aria-hidden="true"><i></i></span>
         </figure>
-        <figure class="clipe" data-pos="baixo">
+        <figure class="clipe" data-pos="baixo" data-i="2">
           <video muted loop playsinline preload="metadata" poster="img/video-3-capa.jpg" aria-label="Maicon Zimbrão cantando numa casa de shows cheia"><source src="img/video-3.mp4" type="video/mp4"></video>
           <button class="som" type="button" aria-pressed="false" aria-label="Ativar som"><svg aria-hidden="true"><use href="#i-mudo"/></svg></button>
           <button class="tela" type="button" aria-label="Ver em tela cheia"><svg aria-hidden="true"><use href="#i-tela"/></svg></button>
@@ -542,6 +579,26 @@ a{color:inherit;text-decoration:none}
     </footer>
   </div>
 </main>
+
+<div class="cine" id="cine" hidden role="dialog" aria-modal="true" aria-label="Vídeos em tela cheia">
+  <div class="cine-fundo" id="cineFundo"></div>
+  <div class="cine-palco">
+    <div class="cine-quadro" id="cineQuadro"><video id="cineV" playsinline preload="auto"></video></div>
+    <div class="cine-veu"></div>
+    <div class="cine-topo">
+      <div class="cine-segs" aria-hidden="true"><i><b></b></i><i><b></b></i><i><b></b></i></div>
+      <div class="cine-barra">
+        <img class="cine-marca" src="img/logo.png" alt="" width="1000" height="721">
+        <button class="cine-bt" id="cineSom" type="button" aria-pressed="true" aria-label="Desativar som"><svg aria-hidden="true"><use href="#i-som"/></svg></button>
+        <button class="cine-bt" id="cineFecha" type="button" aria-label="Fechar"><svg aria-hidden="true"><use href="#i-x"/></svg></button>
+      </div>
+    </div>
+    <button class="cine-seta ant" id="cineAnt" type="button" aria-label="Vídeo anterior"><svg aria-hidden="true"><use href="#i-seta"/></svg></button>
+    <button class="cine-seta prox" id="cineProx" type="button" aria-label="Próximo vídeo"><svg aria-hidden="true"><use href="#i-seta"/></svg></button>
+    <div class="cine-legenda" id="cineLegenda"><span class="selo-v"></span><strong></strong></div>
+    <span class="cine-conta" id="cineConta" aria-live="polite">1 / 3</span>
+  </div>
+</div>
 
 <script>
 (function(){
@@ -786,7 +843,7 @@ a{color:inherit;text-decoration:none}
   (function(){
     var palco = $('palcoV'); if (!palco) return;
     var clipes = Array.prototype.slice.call(palco.querySelectorAll('.clipe'));
-    var visivel = false;
+    var visivel = false, aberto = false;
     function toca(v){ var p = v.play(); if (p && p.catch) p.catch(function(){}); }
     function estado(c, ligado){
       var b = c.querySelector('.som');
@@ -794,7 +851,7 @@ a{color:inherit;text-decoration:none}
       b.setAttribute('aria-label', ligado ? 'Desativar som' : 'Ativar som');
       b.querySelector('use').setAttribute('href', ligado ? '#i-som' : '#i-mudo');
     }
-    function emTelaCheia(v){ return document.fullscreenElement === v || v.webkitDisplayingFullscreen; }
+    function emTelaCheia(){ return aberto; }
     function meio(){ return clipes.filter(function(c){ return c.dataset.pos === 'meio'; })[0]; }
     function cala(c){ var v = c.querySelector('video'); if (emTelaCheia(v)) return; v.pause(); v.muted = true; estado(c, false); }
     function traz(c){
@@ -808,23 +865,14 @@ a{color:inherit;text-decoration:none}
     var io = new IntersectionObserver(function(es){
       es.forEach(function(e){
         visivel = e.isIntersecting;
-        var v = meio().querySelector('video'); if (emTelaCheia(v)) return;
+        if (aberto) return; var v = meio().querySelector('video');
         if (visivel) toca(v); else clipes.forEach(cala);
       });
     }, { threshold: .3 });
     io.observe(palco);
     clipes.forEach(function(c){
       var v = c.querySelector('video');
-      c.querySelector('.tela').addEventListener('click', function(ev){
-        ev.stopPropagation();
-        clipes.forEach(function(o){ o.querySelector('video').muted = true; estado(o, false); });
-        v.muted = false; estado(c, true); toca(v);
-        try {
-          if (v.requestFullscreen) { var p = v.requestFullscreen(); if (p && p.catch) p.catch(function(){ if (v.webkitEnterFullscreen) v.webkitEnterFullscreen(); }); }
-          else if (v.webkitEnterFullscreen) v.webkitEnterFullscreen();
-          else if (v.webkitRequestFullscreen) v.webkitRequestFullscreen();
-        } catch (e) {}
-      });
+      c.querySelector('.tela').addEventListener('click', function(ev){ ev.stopPropagation(); abre(c); });
       c.addEventListener('click', function(){
         if (c.dataset.pos !== 'meio') { traz(c); return; }
         var ligar = v.muted;
@@ -832,12 +880,89 @@ a{color:inherit;text-decoration:none}
         if (ligar) { v.muted = false; estado(c, true); toca(v); }
       });
     });
-    /* em tela cheia o vídeo ganha os controles do próprio navegador */
-    document.addEventListener('fullscreenchange', function(){
-      clipes.forEach(function(o){ var ov = o.querySelector('video'); ov.controls = document.fullscreenElement === ov; });
+    /* tela cheia própria: um vídeo por vez; setas, deslizar para os lados, teclado e avanço automático */
+    var cine = $('cine'), cv = $('cineV'), quadro = $('cineQuadro'), leg = $('cineLegenda'), segs = cine.querySelectorAll('.cine-segs b');
+    var ordem = clipes.slice().sort(function(a, b){ return a.dataset.i - b.dataset.i; });
+    var idx = 0, voltaFoco = null, entrouFS = false, trocando = null;
+    var curvaEntra = 'cubic-bezier(.22,1,.36,1)', curvaSai = 'cubic-bezier(.55,0,1,.45)';
+    function dados(c){ var v = c.querySelector('video'); return { src: c.querySelector('source').getAttribute('src'), capa: v.getAttribute('poster'), selo: c.querySelector('.selo-v').textContent, titulo: c.querySelector('figcaption strong').textContent }; }
+    function somCine(ligado){
+      var b = $('cineSom'); cv.muted = !ligado;
+      b.setAttribute('aria-pressed', ligado ? 'true' : 'false'); b.setAttribute('aria-label', ligado ? 'Desativar som' : 'Ativar som');
+      b.querySelector('use').setAttribute('href', ligado ? '#i-som' : '#i-mudo');
+    }
+    function mostra(i, dir){
+      idx = (i + ordem.length) % ordem.length;
+      var d = dados(ordem[idx]);
+      var coloca = function(){
+        cv.src = d.src; cv.poster = d.capa; toca(cv);
+        $('cineFundo').style.backgroundImage = 'url("' + d.capa + '")';
+        leg.querySelector('.selo-v').textContent = d.selo; leg.querySelector('strong').textContent = d.titulo;
+        $('cineConta').textContent = (idx + 1) + ' / ' + ordem.length;
+        Array.prototype.forEach.call(segs, function(b, k){ b.style.transform = 'scaleX(' + (k < idx ? 1 : 0) + ')'; });
+        if (dir) {
+          quadro.animate([{ opacity: 0, transform: 'translateX(' + (dir * 9) + '%) scale(1.03)' }, { opacity: 1, transform: 'none' }], { duration: 440, easing: curvaEntra });
+          leg.animate([{ opacity: 0, transform: 'translateY(14px)' }, { opacity: 1, transform: 'none' }], { duration: 420, delay: 90, easing: curvaEntra, fill: 'backwards' });
+        }
+      };
+      if (trocando) { trocando.cancel(); trocando = null; }
+      if (!dir) { coloca(); return; }
+      var sai = quadro.animate([{ opacity: 1, transform: 'none' }, { opacity: 0, transform: 'translateX(' + (-dir * 9) + '%) scale(.97)' }], { duration: 230, easing: curvaSai, fill: 'forwards' });
+      trocando = sai;
+      sai.onfinish = function(){ if (trocando !== sai) return; coloca(); sai.cancel(); trocando = null; };
+    }
+    function abre(c){
+      voltaFoco = document.activeElement;
+      clipes.forEach(function(o){ var ov = o.querySelector('video'); ov.pause(); ov.muted = true; estado(o, false); });
+      aberto = true; cine.hidden = false; document.documentElement.style.overflow = 'hidden';
+      somCine(true); mostra(ordem.indexOf(c), 0);
+      cine.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 260, easing: 'ease-out' });
+      quadro.animate([{ transform: 'scale(.94)' }, { transform: 'none' }], { duration: 480, easing: curvaEntra });
+      try { history.pushState({ cine: 1 }, ''); } catch (e) {}
+      // tela cheia de verdade onde o navegador deixa (Android); no iPhone e no computador o player já cobre a janela
+      if (cine.requestFullscreen && matchMedia('(pointer:coarse)').matches) { var p = cine.requestFullscreen(); if (p && p.then) p.then(function(){ entrouFS = true; }, function(){}); }
+      $('cineFecha').focus({ preventScroll: true });
+    }
+    function fecha(peloVoltar){
+      if (!aberto) return;
+      aberto = false; if (trocando) { trocando.cancel(); trocando = null; }
+      cv.pause(); cv.removeAttribute('src'); cv.load();
+      cine.hidden = true; document.documentElement.style.overflow = '';
+      if (entrouFS && document.fullscreenElement) document.exitFullscreen().catch(function(){});
+      entrouFS = false;
+      if (!peloVoltar && history.state && history.state.cine) history.back();
+      if (visivel) toca(meio().querySelector('video'));
+      if (voltaFoco && voltaFoco.focus) voltaFoco.focus({ preventScroll: true });
+    }
+    cv.addEventListener('ended', function(){ mostra(idx + 1, 1); });
+    $('cineProx').addEventListener('click', function(){ mostra(idx + 1, 1); });
+    $('cineAnt').addEventListener('click', function(){ mostra(idx - 1, -1); });
+    $('cineFecha').addEventListener('click', function(){ fecha(false); });
+    $('cineSom').addEventListener('click', function(){ somCine(cv.muted); if (!cv.muted) toca(cv); });
+    window.addEventListener('popstate', function(){ if (aberto) fecha(true); });
+    document.addEventListener('fullscreenchange', function(){ if (aberto && entrouFS && !document.fullscreenElement) fecha(false); });
+    document.addEventListener('keydown', function(e){
+      if (!aberto) return;
+      if (e.key === 'Escape') { e.preventDefault(); fecha(false); }
+      else if (e.key === 'ArrowRight') mostra(idx + 1, 1);
+      else if (e.key === 'ArrowLeft') mostra(idx - 1, -1);
+      else if (e.key === 'Tab') { // o foco fica dentro do player
+        var bts = Array.prototype.slice.call(cine.querySelectorAll('button')), k = bts.indexOf(document.activeElement);
+        e.preventDefault(); bts[(k + (e.shiftKey ? -1 : 1) + bts.length) % bts.length].focus();
+      }
     });
+    // deslizar: para os lados troca o vídeo; para baixo fecha
+    var x0 = 0, y0 = 0, arrastando = false;
+    cine.addEventListener('touchstart', function(e){ if (e.touches.length !== 1) return; arrastando = true; x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; }, { passive: true });
+    cine.addEventListener('touchend', function(e){
+      if (!arrastando) return; arrastando = false;
+      var t = e.changedTouches[0], dx = t.clientX - x0, dy = t.clientY - y0;
+      if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy)) mostra(idx + (dx < 0 ? 1 : -1), dx < 0 ? 1 : -1);
+      else if (dy > 110 && dy > Math.abs(dx) * 1.4) fecha(false);
+    }, { passive: true });
     (function barras(){
       clipes.forEach(function(c){ var v = c.querySelector('video'); if (v.duration && !v.paused) c.querySelector('.barra i').style.transform = 'scaleX(' + (v.currentTime / v.duration).toFixed(4) + ')'; });
+      if (aberto && cv.duration) segs[idx].style.transform = 'scaleX(' + (cv.currentTime / cv.duration).toFixed(4) + ')';
       requestAnimationFrame(barras);
     })();
   })();
