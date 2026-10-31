@@ -67,7 +67,7 @@ a{color:inherit;text-decoration:none}
   radial-gradient(60% 35% at 50% 100%,rgba(255,122,61,.14),transparent 70%)}
 .palco-luz{position:absolute;inset:0;width:100%;height:100%;display:block;opacity:.38}
 /* o vídeo do show: cortado só com o artista, escurecido para o texto ler por cima */
-.palco-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 30%;opacity:0;transition:opacity 1.4s ease;filter:saturate(1.15) contrast(1.05)}
+.palco-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 30%;opacity:0;transition:opacity 1.4s ease}
 .palco-video.ok{opacity:1}
 .palco-tela{position:absolute;inset:0;background:linear-gradient(180deg,rgba(12,10,17,.5) 0%,rgba(12,10,17,.3) 30%,rgba(12,10,17,.5) 65%,rgba(12,10,17,.8) 100%)}
 .palco-vinheta{position:absolute;inset:0;background:
@@ -358,7 +358,7 @@ a{color:inherit;text-decoration:none}
   .rodape{padding-bottom:64px}
 }
 @media (min-width:980px){
-  .palco-video{filter:saturate(1.15) blur(3px);transform:scale(1.05)}
+  .palco-video{transform:scale(1.05)}
   .palco-tela{background:linear-gradient(90deg,rgba(12,10,17,.5),rgba(12,10,17,.66))}
 }
 @media (min-width:980px) and (max-height:780px){
@@ -409,9 +409,8 @@ a{color:inherit;text-decoration:none}
 
 <div class="palco" aria-hidden="true">
   <div class="palco-foto"></div>
-  <video class="palco-video" id="video" muted loop playsinline autoplay preload="auto" poster="img/fundo-poster.jpg" aria-hidden="true" tabindex="-1">
-    <source src="img/fundo.mp4" type="video/mp4">
-  </video>
+  <video class="palco-video" id="video" muted loop playsinline autoplay preload="auto" poster="img/fundo-poster.jpg" aria-hidden="true" tabindex="-1"></video>
+  <script>(function(v){ v.muted = true; v.defaultMuted = true; v.src = matchMedia('(min-width:980px)').matches ? 'img/fundo-desk.mp4' : 'img/fundo.mp4'; })(document.getElementById('video'));</script>
   <div class="palco-tela"></div>
   <div class="palco-fumaca"></div>
   <canvas class="palco-luz" id="luz"></canvas>
@@ -808,16 +807,31 @@ a{color:inherit;text-decoration:none}
     if (!reduz) requestAnimationFrame(quadro);
   })();
 
-  /* vídeo de fundo: entra suave quando começa a tocar; pausa com a aba escondida;
-     parado no primeiro quadro com "reduzir movimento" */
+  /* vídeo de fundo: sempre tenta tocar. Aparece assim que tem imagem (mesmo que tenha começado
+     antes deste script); se o navegador barrar o autoplay (iPhone em modo de economia, economia de
+     dados), começa no primeiro toque ou rolagem; se travar carregando, recarrega do ponto onde parou */
   (function(){
     var vid = $('video'); if (!vid) return;
     function mostra(){ vid.classList.add('ok'); }
-    vid.addEventListener('playing', mostra);
-    if (reduz) { vid.removeAttribute('autoplay'); vid.pause(); vid.addEventListener('loadeddata', mostra); if (vid.readyState >= 2) mostra(); return; }
-    function toca(){ var p = vid.play(); if (p && p.catch) p.catch(mostra); }
+    function toca(){
+      if (document.hidden) return;
+      vid.muted = true;
+      var p = vid.play(); if (p && p.then) p.then(mostra, function(){ if (vid.readyState >= 2) mostra(); });
+    }
+    ['playing', 'loadeddata'].forEach(function(e){ vid.addEventListener(e, mostra); });
+    ['loadeddata', 'canplay'].forEach(function(e){ vid.addEventListener(e, function(){ if (vid.paused) toca(); }); });
+    if (vid.readyState >= 2) mostra();
     toca();
+    ['touchstart', 'pointerdown', 'keydown', 'scroll'].forEach(function(e){ window.addEventListener(e, function(){ if (vid.paused) toca(); }, { passive: true }); });
     document.addEventListener('visibilitychange', function(){ if (document.hidden) vid.pause(); else toca(); });
+    window.addEventListener('pageshow', toca);
+    var preso = 0, ultimo = -1;
+    setInterval(function(){
+      if (document.hidden || vid.paused) { preso = 0; return; }
+      if (vid.currentTime === ultimo) preso++; else preso = 0;
+      ultimo = vid.currentTime;
+      if (preso >= 4) { preso = 0; var t = vid.currentTime; vid.load(); vid.addEventListener('loadedmetadata', function f(){ vid.removeEventListener('loadedmetadata', f); try { vid.currentTime = t; } catch (e) {} toca(); }); }
+    }, 1000);
   })();
 
   /* fotos do destaque: trocam a cada 8 s; a nova surge por cima da anterior num dissolve lento,
